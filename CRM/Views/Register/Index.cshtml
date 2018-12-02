@@ -1,0 +1,59 @@
+﻿@model CRM.Models.ViewModels.Identity.RegisterViewModel
+@{
+    ViewData["Title"] = "Login the Application";
+}
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                REGISTER
+            </div>
+            <div class="card-body">
+                <form method="post" asp-action="Register" asp-controller="Register" asp-antiforgery="true">
+                    <div class="form-group">
+                        <input placeholder="First Name" class="form-control" asp-for="FirstName" autocomplete="off">
+                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="Last Name" class="form-control" asp-for="LastName" autocomplete="off">
+                        <span class="text-danger" asp-validation-for="LastName"></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="E-Mail" class="form-control" asp-for="Email" autocomplete="off">
+                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="Password" asp-for="Password" class="form-control">
+                        <span class="text-danger" asp-validation-for="Password"></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="Confirm Password" type="password" asp-for="ConfirmPassword" class="form-control">
+                        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary">
+                            Register
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Register">Already have an account? Login instantly.</a> <br /> <br />
+
+                By creating an account, you're agreeing to the <br />
+                <a href="#">Brand Terms</a> and <a href="#">Conditions</a>.
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+}
+
