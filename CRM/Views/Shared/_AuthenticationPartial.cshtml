@@ -1,0 +1,28 @@
+﻿<ul class="navbar-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">@User.Identity.Name</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript: $('#logout').submit()">
+                <i class="fa fa-power-off"></i>
+                Logout
+            </a>
+        </li>
+        <form asp-antiforgery="true" id="logout" method="post" asp-action="Index" asp-controller="Logout"></form>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn btn-primary" asp-action="Index" asp-controller="Register">
+                Register
+            </a>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="Login">
+                <i class="fa fa-sign-in"></i>
+                Login
+            </a>
+        </li>
+    }
+</ul>

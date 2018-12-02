@@ -1,13 +1,13 @@
 ﻿@model CRM.Models.ViewModels.Identity.LoginViewModel
 @{
-    ViewData["Title"] = "Login the Application";
+    ViewData["Title"] = "LOGIN";
 }
 
 <div class="row">
     <div class="col-lg-6 mx-auto">
         <div class="card">
             <div class="card-header text-center">
-                LOGIN
+                @ViewData["Title"]
             </div>
             <div class="card-body">
                 <form method="post" asp-action="Login" asp-controller="Login" asp-antiforgery="true">
