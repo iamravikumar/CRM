@@ -15,6 +15,8 @@ namespace CRM.Models
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
         public virtual IEnumerable<TeamMember> Members { get; set; }

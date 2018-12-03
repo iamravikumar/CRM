@@ -18,6 +18,12 @@ namespace CRM.Models
         [Display(Name = "Team")]
         public int TeamID { get; set; }
 
+        [Display(Name = "Status")]
+        public bool IsActive { get; set; }
+
+        [Display(Name = "Created At")]
+        public DateTime CreatedAt { get; set; }
+
         [ForeignKey("UserID")]
         public virtual ApplicationUser User { get; set; }
 

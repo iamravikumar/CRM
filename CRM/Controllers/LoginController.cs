@@ -40,7 +40,7 @@ namespace CRM.Controllers
             if (!result.Succeeded)
             {
                 ModelState.AddModelError("", "Login error!");
-                return View(model);
+                return RedirectToAction(nameof(Index));
             }
 
             if (string.IsNullOrWhiteSpace(returnUrl))
