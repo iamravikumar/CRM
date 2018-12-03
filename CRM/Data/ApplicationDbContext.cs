@@ -18,5 +18,6 @@ namespace CRM.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
     }
 }

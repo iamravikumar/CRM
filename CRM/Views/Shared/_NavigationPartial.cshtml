@@ -1,29 +1,28 @@
 ﻿<ul class="navbar-nav mr-auto">
     <li class="nav-item">
-        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Schedule</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Directory</a>
-    </li>
-    <li class="nav-item">
-        @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("User") || User.IsInRole("PassiveMember"))
         {
-            @if (User.IsInRole("User") || User.IsInRole("PassiveMember"))
-            {
+            <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="Team">Team</a>
-            }
+            </li>
+        }
 
-            @if (User.IsInRole("Officer") || User.IsInRole("Member"))
-            {
-                <a class="nav-link" asp-action="Dashboard" asp-controller="Team">Team</a>
-            }
-        }
-        else
+        @if (User.IsInRole("Officer") || User.IsInRole("Member"))
         {
-            <a class="nav-link" asp-action="Index" asp-controller="Team">Team</a>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Dashboard" asp-controller="Team">Team</a>
+            </li>
         }
-    </li>
+
+        @if (User.IsInRole("Officer"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index" asp-controller="Sector">Sectors</a>
+            </li>
+        }
+    }
 </ul>

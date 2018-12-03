@@ -1,13 +1,17 @@
-﻿@model IEnumerable<CRM.Models.TeamMember>
+﻿@model IEnumerable<CRM.Models.Sector>
 @{
-    ViewData["Title"] = "TEAM APPLICANTS";
+    ViewData["Title"] = "SECTORS";
     int counter = 1;
 }
 
-<partial name="_TeamNavigationPartial" />
-
 <div class="row">
     <div class="col-lg-12">
+        <div class="mb-3 text-right">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fa fa-plus-circle"></i>
+                Create a New Sector
+            </a>
+        </div>
         <div class="card">
             <div class="card-header text-center">
                 @ViewData["Title"]
@@ -19,8 +23,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">@Html.DisplayNameFor(m => m.User.Email)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
+                                <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.IsActive)</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -30,18 +34,20 @@
                             {
                                 <tr>
                                     <td class="align-middle">@Html.Raw(counter)</td>
-                                    <td class="align-middle">@item.User.FullName()</td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.User.Email)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Name)</td>
+                                    <td class="align-middle text-center">
+                                        @if (item.IsActive == true)
+                                        {
+                                            <span class="badge badge-primary">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Not Active</span>
+                                        }
+                                    </td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
-                                        <a asp-action="Confirm" asp-route-applicant="@item.User.Id" asp-route-id="@item.ID" class="btn btn-outline-primary btn-sm">
-                                            <i class="fa fa-check"></i>
-                                            Confirm
-                                        </a>
-                                        <a asp-action="Reject" asp-route-id="@item.ID" asp-route-applicant="@item.User.Id" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa fa-times"></i>
-                                            Reject
-                                        </a>
+                                        <partial name="_DefaultActionButtonsPartial" model="@item.ID" />
                                     </td>
                                 </tr>
                                 counter++;
@@ -59,7 +65,7 @@
                 </div>
             }
             <div class="card-footer text-center">
-                Total Applicant(s): @Model.Count()
+                Total Sector(s): @Model.Count()
             </div>
         </div>
     </div>

@@ -155,19 +155,30 @@ namespace CRM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Confirm(string applicant, int id, [Bind("ID,IsActive")] TeamMember member)
         {
+            if (id != member.ID)
+                return NotFound();
+
             var user = await _context.ApplicationUsers.FindAsync(applicant);
 
-            member.IsActive = true;
-            _context.TeamMembers.Update(member);
+            try
+            {
+                member.IsActive = true;
 
-            _context.Entry(member).Property("CreatedAt").IsModified = false;
-            _context.Entry(member).Property("UserID").IsModified = false;
-            _context.Entry(member).Property("TeamID").IsModified = false;
+                _context.TeamMembers.Update(member);
 
-            await _userManager.RemoveFromRoleAsync(user, "PassiveMember");
-            await _userManager.AddToRoleAsync(user, "Member");
+                _context.Entry(member).Property("CreatedAt").IsModified = false;
+                _context.Entry(member).Property("UserID").IsModified = false;
+                _context.Entry(member).Property("TeamID").IsModified = false;
 
-            await _context.SaveChangesAsync();
+                await _userManager.RemoveFromRoleAsync(user, "PassiveMember");
+                await _userManager.AddToRoleAsync(user, "Member");
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e + ": An error occurred.");
+            }
 
             return RedirectToAction(nameof(Dashboard));
         }
@@ -209,6 +220,19 @@ namespace CRM.Controllers
             }
 
             return RedirectToAction(nameof(Applicants));
+        }
+
+        [Authorize(Roles = "Officer, Member")]
+        public async Task<IActionResult> Members()
+        {
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var members = await _context.TeamMembers.Include(t => t.User).Where(t => t.TeamID == team.TeamID).Where(t => t.IsActive == true).ToListAsync();
+
+            return View(members);
         }
     }
 }

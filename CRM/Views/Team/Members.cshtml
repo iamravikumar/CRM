@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CRM.Models.TeamMember>
 @{
-    ViewData["Title"] = "TEAM APPLICANTS";
+    ViewData["Title"] = "TEAM MEMBERS";
     int counter = 1;
 }
 
@@ -34,13 +34,11 @@
                                     <td class="align-middle">@Html.DisplayFor(m => item.User.Email)</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
-                                        <a asp-action="Confirm" asp-route-applicant="@item.User.Id" asp-route-id="@item.ID" class="btn btn-outline-primary btn-sm">
-                                            <i class="fa fa-check"></i>
-                                            Confirm
+                                        <a asp-action="Details" asp-controller="Profile" class="btn btn-outline-dark btn-sm">
+                                            <i class="fa fa-user-circle-o"></i>
                                         </a>
-                                        <a asp-action="Reject" asp-route-id="@item.ID" asp-route-applicant="@item.User.Id" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa fa-times"></i>
-                                            Reject
+                                        <a asp-action="Send" asp-controller="Message" class="btn btn-outline-primary btn-sm">
+                                            <i class="fa fa-paper-plane"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -59,7 +57,7 @@
                 </div>
             }
             <div class="card-footer text-center">
-                Total Applicant(s): @Model.Count()
+                Total Member(s): @Model.Count()
             </div>
         </div>
     </div>
