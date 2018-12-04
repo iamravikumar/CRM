@@ -153,27 +153,21 @@ namespace CRM.Controllers
         [Route("Team/Applicant/{applicant}/Confirm/{id}")]
         [Authorize(Roles = "Officer")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Confirm(string applicant, int id, [Bind("ID,IsActive")] TeamMember member)
+        public async Task<IActionResult> Confirm(string applicant, int id, TeamMember member)
         {
             if (id != member.ID)
                 return NotFound();
 
             var user = await _context.ApplicationUsers.FindAsync(applicant);
+            member = await _context.TeamMembers.FindAsync(id);
 
             try
             {
                 member.IsActive = true;
-
-                _context.TeamMembers.Update(member);
-
-                _context.Entry(member).Property("CreatedAt").IsModified = false;
-                _context.Entry(member).Property("UserID").IsModified = false;
-                _context.Entry(member).Property("TeamID").IsModified = false;
+                await _context.SaveChangesAsync();
 
                 await _userManager.RemoveFromRoleAsync(user, "PassiveMember");
                 await _userManager.AddToRoleAsync(user, "Member");
-
-                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {

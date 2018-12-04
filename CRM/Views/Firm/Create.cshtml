@@ -1,0 +1,114 @@
+﻿@model CRM.Models.ViewModels.FirmViewModel
+@{
+    ViewData["Title"] = "CREATE A NEW FIRM";
+}
+
+<div class="row">
+    <div class="col-lg-12 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-antiforgery="true">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Name" class="form-control" asp-for="Firm.Name" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Name"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <select asp-for="Firm.SectorID" class="form-control" asp-items="@(new SelectList(Model.Sectors, "ID", "Name"))">
+                                    <option>Select Sector</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="E-Mail" class="form-control" asp-for="Firm.Email" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Email"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Phone" class="form-control" asp-for="Firm.Phone" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Phone"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Fax" class="form-control" asp-for="Firm.Fax" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Fax"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Province" class="form-control" asp-for="Firm.Province" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Province"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="City" class="form-control" asp-for="Firm.City" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.City"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Country" class="form-control" asp-for="Firm.Country" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Country"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Website" class="form-control" asp-for="Firm.Website" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Website"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Address" class="form-control" asp-for="Firm.Address" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Address"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Division" class="form-control" asp-for="Firm.Division" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Firm.Division"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Description" class="form-control" asp-for="Firm.Description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-angle-left"></i>
+                    Back to Team List
+                </a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                    Create
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+}

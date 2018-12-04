@@ -1,0 +1,90 @@
+﻿@model IEnumerable<CRM.Models.Firm>
+@{
+    ViewData["Title"] = "FIRMS";
+    int counter = 1;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-3 text-right">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fa fa-plus-circle"></i>
+                Create a New Firm
+            </a>
+        </div>
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            @if (Model.Count() > 0)
+            {
+                <div class="p-0 card-body">
+                    <table style="border: none" class="table table-hover table-striped table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.SectorID)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Phone)</th>
+                                <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.Division)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="align-middle">@Html.Raw(counter)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Name)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Sector.Name)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Phone)</td>
+                                    <td class="align-middle text-center">
+                                        @switch (item.Division)
+                                        {
+                                            case "A":
+                                                <span class="badge badge-primary">A</span>
+                                                break;
+                                            case "B":
+                                                <span class="badge badge-success">B</span>
+                                                break;
+                                            case "C":
+                                                <span class="badge badge-danger">C</span>
+                                                break;
+                                            case "D":
+                                                <span class="badge badge-dark">D</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
+                                    <td class="text-right align-middle">
+                                        <a asp-action="Details" class="btn btn-sm btn-outline-dark">
+                                            <span class="fa fa-eye"></span>
+                                        </a>
+                                        <partial name="_DefaultActionButtonsPartial" model="@item.ID" />
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="card-body">
+                    <div class="alert alert-primary" role="alert">
+                        There are no any resources to show here.
+                    </div>
+                </div>
+            }
+            <div class="card-footer text-center">
+                Total Firm(s): @Model.Count()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}

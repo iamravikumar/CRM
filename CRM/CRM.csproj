@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20181203184440_CreateFirms.cs" />
+    <Compile Remove="Migrations\20181203184440_CreateFirms.Designer.cs" />
+    <Compile Remove="Migrations\20181203185259_CreateFirmsAndCustomers.cs" />
+    <Compile Remove="Migrations\20181203185259_CreateFirmsAndCustomers.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Bower" Version="1.3.11" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />

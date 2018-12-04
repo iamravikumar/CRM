@@ -1,0 +1,100 @@
+﻿@model CRM.Models.ViewModels.FirmViewModel
+@{
+    ViewData["Title"] = "DELETE THE EXISTING FIRM";
+}
+
+<div class="row">
+    <div class="col-lg-12 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-action="Delete" asp-antiforgery="true" asp-route-id="@Model.Firm.ID">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Name" class="form-control" asp-for="Firm.Name" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <select disabled asp-for="Firm.SectorID" class="form-control" asp-items="@(new SelectList(Model.Sectors, "ID", "Name"))">
+                                    <option>Select Sector</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="E-Mail" class="form-control" asp-for="Firm.Email" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Phone" class="form-control" asp-for="Firm.Phone" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Fax" class="form-control" asp-for="Firm.Fax" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Province" class="form-control" asp-for="Firm.Province" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="City" class="form-control" asp-for="Firm.City" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Country" class="form-control" asp-for="Firm.Country" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Website" class="form-control" asp-for="Firm.Website" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Address" class="form-control" asp-for="Firm.Address" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Division" class="form-control" asp-for="Firm.Division" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea disabled placeholder="Description" class="form-control" asp-for="Firm.Description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-angle-left"></i>
+                    Back to Team List
+                </a>
+                <a href="javascript: $('#form').submit()" class="btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}

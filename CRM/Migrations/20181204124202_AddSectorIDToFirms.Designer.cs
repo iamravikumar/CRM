@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181204124202_AddSectorIDToFirms")]
+    partial class AddSectorIDToFirms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,8 +80,7 @@ namespace CRM.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("Division")
-                        .IsRequired()
-                        .HasMaxLength(1);
+                        .IsRequired();
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -100,7 +101,8 @@ namespace CRM.Migrations
 
                     b.Property<int>("TeamID");
 
-                    b.Property<string>("Website");
+                    b.Property<string>("Website")
+                        .IsRequired();
 
                     b.HasKey("ID");
 
