@@ -19,7 +19,7 @@ namespace CRM.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<Sector> Sectors { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Personnel> Personnels { get; set; }
         public DbSet<Firm> Firms { get; set; }
     }
 }

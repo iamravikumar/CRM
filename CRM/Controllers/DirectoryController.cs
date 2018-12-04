@@ -13,21 +13,21 @@ using Microsoft.EntityFrameworkCore;
 namespace CRM.Controllers
 {
     [Authorize(Roles = "Officer, Member")]
-    public class FirmController : Controller
+    public class DirectoryController : Controller
     {
         private readonly ApplicationDbContext _context;
 
         [BindProperty]
-        public FirmViewModel Model { get; set; }
+        public DirectoryViewModel Model { get; set; }
 
-        public FirmController(ApplicationDbContext context)
+        public DirectoryController(ApplicationDbContext context)
         {
             _context = context;
 
-            Model = new FirmViewModel()
+            Model = new DirectoryViewModel()
             {
-                Sectors = _context.Sectors.Where(s => s.IsActive == true).ToList(),
-                Firm = new Firm()
+                Firms = _context.Firms.ToList(),
+                Personnel = new Personnel()
             };
         }
 
@@ -38,9 +38,9 @@ namespace CRM.Controllers
 
             var user = await _context.ApplicationUsers.FindAsync(claim.Value);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
-            var firms = await _context.Firms.Where(f => f.TeamID == team.TeamID).Include(f => f.Sector).ToListAsync();
+            var personnels = await _context.Personnels.Where(f => f.TeamID == team.TeamID).Include(f => f.Firm).ToListAsync();
 
-            return View(firms);
+            return View(personnels);
         }
 
         public IActionResult Create()
@@ -61,12 +61,12 @@ namespace CRM.Controllers
             var user = await _context.ApplicationUsers.FindAsync(claim.Value);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
 
-            Model.Firm.TeamID = team.TeamID;
-            Model.Firm.CreatedAt = DateTime.Now;
+            Model.Personnel.TeamID = team.TeamID;
+            Model.Personnel.CreatedAt = DateTime.Now;
 
             try
             {
-                _context.Firms.Add(Model.Firm);
+                _context.Personnels.Add(Model.Personnel);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
@@ -82,9 +82,9 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Model.Firm = await _context.Firms.FirstOrDefaultAsync(f => f.ID == id);
+            Model.Personnel = await _context.Personnels.FirstOrDefaultAsync(f => f.ID == id);
 
-            if (Model.Firm == null)
+            if (Model.Personnel == null)
                 return NotFound();
 
             return View(Model);
@@ -92,27 +92,25 @@ namespace CRM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Firm firm)
+        public async Task<IActionResult> Edit(int id, Personnel personnel)
         {
             if (!ModelState.IsValid)
                 return View(Model);
 
-            firm = await _context.Firms.FirstOrDefaultAsync(f => f.ID == id);
+            personnel = await _context.Personnels.FirstOrDefaultAsync(f => f.ID == id);
 
             try
             {
-                firm.SectorID = Model.Firm.SectorID;
-                firm.Name = Model.Firm.Name;
-                firm.Description = Model.Firm.Description;
-                firm.Email = Model.Firm.Email;
-                firm.Phone = Model.Firm.Phone;
-                firm.Fax = Model.Firm.Fax;
-                firm.Province = Model.Firm.Province;
-                firm.City = Model.Firm.City;
-                firm.Country = Model.Firm.Country;
-                firm.Address = Model.Firm.Address;
-                firm.Website = Model.Firm.Website;
-                firm.Division = Model.Firm.Division;
+                personnel.FirmID = Model.Personnel.FirmID;
+                personnel.FirstName = Model.Personnel.FirstName;
+                personnel.LastName = Model.Personnel.LastName;
+                personnel.Birthday = Model.Personnel.Birthday;
+                personnel.Email = Model.Personnel.Email;
+                personnel.Phone = Model.Personnel.Phone;
+                personnel.City = Model.Personnel.City;
+                personnel.Province = Model.Personnel.Province;
+                personnel.Country = Model.Personnel.Country;
+                personnel.Address = Model.Personnel.Address;
 
                 await _context.SaveChangesAsync();
             }
@@ -129,9 +127,9 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Model.Firm = await _context.Firms.FirstOrDefaultAsync(f => f.ID == id);
+            Model.Personnel = await _context.Personnels.FirstOrDefaultAsync(f => f.ID == id);
 
-            if (Model.Firm == null)
+            if (Model.Personnel == null)
                 return NotFound();
 
             return View(Model);
@@ -141,11 +139,11 @@ namespace CRM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Model.Firm = await _context.Firms.FirstOrDefaultAsync(f => f.ID == id);
+            Model.Personnel = await _context.Personnels.FirstOrDefaultAsync(f => f.ID == id);
 
             try
             {
-                _context.Firms.Remove(Model.Firm);
+                _context.Personnels.Remove(Model.Personnel);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
@@ -161,12 +159,12 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Firm firm = await _context.Firms.Include(f => f.Personnels).Include(f => f.Sector).FirstOrDefaultAsync(f => f.ID == id);
+            Model.Personnel = await _context.Personnels.FirstOrDefaultAsync(f => f.ID == id);
 
-            if (firm == null)
+            if (Model.Personnel == null)
                 return NotFound();
 
-            return View(firm);
+            return View(Model);
         }
     }
 }

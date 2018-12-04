@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CRM.Models
 {
-    public class Customer
+    public class Personnel
     {
         [Key]
         public int ID { get; set; }
@@ -18,24 +18,35 @@ namespace CRM.Models
         [Display(Name = "Firm")]
         public int? FirmID { get; set; }
 
+        [Required]
         [Display(Name = "Fisrt Name")]
         public string FirstName { get; set; }
 
+        [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [DataType(DataType.Date)]
         public string Birthday { get; set; }
 
+        [Required]
         [Display(Name = "E-Mail")]
         public string Email { get; set; }
 
+        [Required]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
+        [Required]
         public string Province { get; set; }
+
+        [Required]
         public string City { get; set; }
+
+        [Required]
         public string Country { get; set; }
+
+        [Required]
         public string Address { get; set; }
 
         [Display(Name = "Created At")]
@@ -46,5 +57,15 @@ namespace CRM.Models
 
         [ForeignKey("FirmID")]
         public virtual Firm Firm { get; set; }
+
+        public string FullName()
+        {
+            return LastName + ", " + FirstName;
+        }
+
+        public string MiniAddress()
+        {
+            return Province + ", " + City;
+        }
     }
 }

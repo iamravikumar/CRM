@@ -63,6 +63,6 @@ namespace CRM.Models
         [ForeignKey("TeamID")]
         public virtual Team Team { get; set; }
 
-        public virtual IEnumerable<Customer> Customers { get; set; }
+        public virtual IEnumerable<Personnel> Personnels { get; set; }
     }
 }

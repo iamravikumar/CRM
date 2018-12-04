@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181204154209_CreatePersonnels")]
+    partial class CreatePersonnels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,16 +80,13 @@ namespace CRM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .IsRequired();
+                    b.Property<string>("Address");
 
                     b.Property<string>("Birthday");
 
-                    b.Property<string>("City")
-                        .IsRequired();
+                    b.Property<string>("City");
 
-                    b.Property<string>("Country")
-                        .IsRequired();
+                    b.Property<string>("Country");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -105,8 +104,7 @@ namespace CRM.Migrations
                     b.Property<string>("Phone")
                         .IsRequired();
 
-                    b.Property<string>("Province")
-                        .IsRequired();
+                    b.Property<string>("Province");
 
                     b.Property<int>("TeamID");
 

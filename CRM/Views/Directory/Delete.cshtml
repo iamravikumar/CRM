@@ -1,6 +1,6 @@
-﻿@model CRM.Models.ViewModels.FirmViewModel
+﻿@model CRM.Models.ViewModels.DirectoryViewModel
 @{
-    ViewData["Title"] = "DELETE THE EXISTING FIRM";
+    ViewData["Title"] = "DELETE THE EXISTING PERSONNEL";
 }
 
 <div class="row">
@@ -10,74 +10,62 @@
                 @ViewData["Title"]
             </div>
             <div class="card-body">
-                <form id="form" method="post" asp-action="Delete" asp-antiforgery="true" asp-route-id="@Model.Firm.ID">
+                <form id="form" method="post" asp-antiforgery="true" asp-route-id="@Model.Personnel.ID">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <input disabled placeholder="Name" class="form-control" asp-for="Firm.Name" autocomplete="off">
+                                <input disabled placeholder="First Name" class="form-control" asp-for="Personnel.FirstName" autocomplete="off">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <select disabled asp-for="Firm.SectorID" class="form-control" asp-items="@(new SelectList(Model.Sectors, "ID", "Name"))">
-                                    <option>Select Sector</option>
+                                <input disabled placeholder="Last Name" class="form-control" asp-for="Personnel.LastName" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Birthday" class="form-control" asp-for="Personnel.Birthday" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <select disabled asp-for="Personnel.FirmID" class="form-control" asp-items="@(new SelectList(Model.Firms, "ID", "Name"))">
+                                    <option value="">Individual</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <input disabled placeholder="E-Mail" class="form-control" asp-for="Firm.Email" autocomplete="off">
+                                <input disabled placeholder="E-Mail" class="form-control" asp-for="Personnel.Email" autocomplete="off">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input disabled placeholder="Phone" class="form-control" asp-for="Firm.Phone" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Fax" class="form-control" asp-for="Firm.Fax" autocomplete="off">
+                                <input disabled placeholder="Phone" class="form-control" asp-for="Personnel.Phone" autocomplete="off">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <input disabled placeholder="Province" class="form-control" asp-for="Firm.Province" autocomplete="off">
+                                <input disabled placeholder="City" class="form-control" asp-for="Personnel.City" autocomplete="off">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input disabled placeholder="City" class="form-control" asp-for="Firm.City" autocomplete="off">
+                                <input disabled placeholder="Province" class="form-control" asp-for="Personnel.Province" autocomplete="off">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input disabled placeholder="Country" class="form-control" asp-for="Firm.Country" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Website" class="form-control" asp-for="Firm.Website" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Address" class="form-control" asp-for="Firm.Address" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Division" class="form-control" asp-for="Firm.Division" autocomplete="off">
+                                <input disabled placeholder="Country" class="form-control" asp-for="Personnel.Country" autocomplete="off">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <textarea disabled placeholder="Description" rows="5" class="form-control" asp-for="Firm.Description"></textarea>
+                        <input disabled placeholder="Address" class="form-control" asp-for="Personnel.Address" autocomplete="off">
                     </div>
                 </form>
             </div>

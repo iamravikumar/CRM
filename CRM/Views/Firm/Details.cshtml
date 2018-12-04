@@ -1,0 +1,168 @@
+﻿@model CRM.Models.Firm
+@{
+    ViewData["Title"] = "DETAILS THE EXISTING FIRM";
+    int counter = 1;
+}
+
+<div class="row mb-5">
+    <div class="col-lg-12 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Sector" class="form-control" asp-for="Sector.Name" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="E-Mail" class="form-control" asp-for="Email" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Phone" class="form-control" asp-for="Phone" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Fax" class="form-control" asp-for="Fax" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Province" class="form-control" asp-for="Province" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="City" class="form-control" asp-for="City" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Country" class="form-control" asp-for="Country" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Website" class="form-control" asp-for="Website" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Address" class="form-control" asp-for="Address" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input disabled placeholder="Division" class="form-control" asp-for="Division" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea disabled placeholder="Description" rows="5" class="form-control" asp-for="Description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fa fa-angle-left"></i>
+                            Back to Team List
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-dark">
+                            Go to Update
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div class="col text-right">
+                        <a asp-action="Create" asp-route-id="@Model.ID" asp-controller="Directory" class="btn btn-primary">
+                            <i class="fa fa-plus-circle"></i>
+                            Add to Personnel to @Model.Name
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                FIRM PERSONNELS
+            </div>
+
+            @if (Model.Personnels.Count() > 0)
+            {
+                <div class="card-body p-0">
+                    <table style="border: none" class="table table-hover table-striped table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Phone)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Email)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.City)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Personnels)
+                            {
+                                <tr>
+                                    <td class="align-middle">@Html.Raw(counter)</td>
+                                    <td class="align-middle">@item.FullName()</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Phone)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Email)</td>
+                                    <td class="align-middle">@item.MiniAddress()</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
+                                    <td class="text-right align-middle">
+                                        <a asp-action="Details" asp-route-id="@item.ID" asp-controller="Directory" class="btn btn-sm btn-outline-dark">
+                                            <span class="fa fa-eye"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="card-body">
+                    <div class="alert alert-primary" role="alert">
+                        There are no any resources to show here.
+                    </div>
+                </div>
+            }
+            <div class="card-footer text-center">
+                Total Firm Personnel(s): @Model.Personnels.Count()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}

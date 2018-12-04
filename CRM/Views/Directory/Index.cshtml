@@ -1,6 +1,6 @@
-﻿@model IEnumerable<CRM.Models.Firm>
+﻿@model IEnumerable<CRM.Models.Personnel>
 @{
-    ViewData["Title"] = "FIRMS";
+    ViewData["Title"] = "DIRECTORY";
     int counter = 1;
 }
 
@@ -9,7 +9,7 @@
         <div class="mb-3 text-right">
             <a asp-action="Create" class="btn btn-primary">
                 <i class="fa fa-plus-circle"></i>
-                Create a New Firm
+                Create a New Personel
             </a>
         </div>
         <div class="card">
@@ -23,10 +23,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
-                                <th scope="col">@Html.DisplayNameFor(m => m.SectorID)</th>
+                                <th scope="col">Full Name</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.Phone)</th>
-                                <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.Division)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Email)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Firm.Name)</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -36,26 +36,10 @@
                             {
                                 <tr>
                                     <td class="align-middle">@Html.Raw(counter)</td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.Name)</td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.Sector.Name)</td>
+                                    <td class="align-middle">@item.FullName()</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.Phone)</td>
-                                    <td class="align-middle text-center">
-                                        @switch (item.Division)
-                                        {
-                                            case "A":
-                                                <span class="badge badge-primary">A</span>
-                                                break;
-                                            case "B":
-                                                <span class="badge badge-success">B</span>
-                                                break;
-                                            case "C":
-                                                <span class="badge badge-danger">C</span>
-                                                break;
-                                            case "D":
-                                                <span class="badge badge-dark">D</span>
-                                                break;
-                                        }
-                                    </td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Email)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Firm.Name)</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
                                         <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-dark">
@@ -79,7 +63,7 @@
                 </div>
             }
             <div class="card-footer text-center">
-                Total Firm(s): @Model.Count()
+                Total Personnel(s): @Model.Count()
             </div>
         </div>
     </div>
