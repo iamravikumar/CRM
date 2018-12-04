@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CRM.Models.Sector>
+@using CRM.Services.Sector
+@inject SectorService SectorService
 @{
     ViewData["Title"] = "SECTORS";
     int counter = 1;
@@ -25,6 +27,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
                                 <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.IsActive)</th>
+                                <th scope="col" class="text-center">Usage Status</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -42,7 +45,17 @@
                                         }
                                         else
                                         {
-                                            <span class="badge badge-warning">Not Active</span>
+                                            <span class="badge badge-danger">Inactive</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        @if (SectorService.IsSectorUsed(item.ID) == true)
+                                        {
+                                            <span class="badge badge-warning">Used</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-info">Unused</span>
                                         }
                                     </td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
