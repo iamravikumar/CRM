@@ -1,6 +1,6 @@
-﻿@model IEnumerable<CRM.Models.NoteType>
+﻿@model IEnumerable<CRM.Models.Programme>
 @{
-    ViewData["Title"] = "NOTE TYPES";
+    ViewData["Title"] = "PROGRAMMES";
     int counter = 1;
 }
 
@@ -9,7 +9,7 @@
         <div class="mb-3 text-right">
             <a asp-action="Create" class="btn btn-primary">
                 <i class="fa fa-plus-circle"></i>
-                Create a New Note Type
+                Create a New Programme
             </a>
         </div>
         <div class="card">
@@ -25,6 +25,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
                                 <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.IsActive)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Color)</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -45,6 +46,7 @@
                                             <span class="badge badge-danger">Inactive</span>
                                         }
                                     </td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Color)</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
                                         <partial name="_DefaultActionButtonsPartial" model="@item.ID" />
@@ -65,7 +67,7 @@
                 </div>
             }
             <div class="card-footer text-center">
-                Total Note Type(s): @Model.Count()
+                Total Programme(s): @Model.Count()
             </div>
         </div>
     </div>

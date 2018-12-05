@@ -1,6 +1,6 @@
-﻿@model CRM.Models.NoteType
+﻿@model CRM.Models.Programme
 @{
-    ViewData["Title"] = "EDIT THE EXISTING NOTE TYPE";
+    ViewData["Title"] = "EDIT THE EXISTING PROGRAMME";
 }
 
 <div class="row">
@@ -10,10 +10,14 @@
                 @ViewData["Title"]
             </div>
             <div class="card-body">
-                <form id="form" method="post" asp-action="Edit" asp-antiforgery="true" asp-route-id="@Model.ID">
+                <form id="form" method="post" asp-action="Edit" asp-antiforgery="true">
                     <div class="form-group">
                         <input placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
                         <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <input placeholder="Color" class="form-control" asp-for="Color" autocomplete="off">
+                        <span class="text-danger" asp-validation-for="Color"></span>
                     </div>
                     <div class="form-group form-check">
                         <input asp-for="IsActive" type="checkbox" class="form-check-input">
@@ -28,7 +32,7 @@
                 </a>
                 <a href="javascript: $('#form').submit()" class="btn btn-primary">
                     <i class="fa fa-refresh"></i>
-                    Update
+                    Edit
                 </a>
             </div>
         </div>

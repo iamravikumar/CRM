@@ -1,6 +1,6 @@
-﻿@model CRM.Models.NoteType
+﻿@model CRM.Models.Programme
 @{
-    ViewData["Title"] = "CREATE A NEW NOTE TYPE";
+    ViewData["Title"] = "DELETE THE EXISTING PROGRAMME";
 }
 
 <div class="row">
@@ -10,13 +10,15 @@
                 @ViewData["Title"]
             </div>
             <div class="card-body">
-                <form id="form" method="post" asp-action="Create" asp-antiforgery="true">
+                <form id="form" method="post" asp-action="Delete" asp-antiforgery="true">
                     <div class="form-group">
-                        <input placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
-                        <span class="text-danger" asp-validation-for="Name"></span>
+                        <input disabled placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input disabled placeholder="Color" class="form-control" asp-for="Color" autocomplete="off">
                     </div>
                     <div class="form-group form-check">
-                        <input asp-for="IsActive" type="checkbox" class="form-check-input">
+                        <input disabled asp-for="IsActive" type="checkbox" class="form-check-input">
                         <label class="form-check-label" asp-for="IsActive"></label>
                     </div>
                 </form>
@@ -26,9 +28,9 @@
                     <i class="fa fa-angle-left"></i>
                     Back to Team List
                 </a>
-                <a href="javascript: $('#form').submit()" class="btn btn-primary">
-                    <i class="fa fa-plus-circle"></i>
-                    Create
+                <a href="javascript: $('#form').submit()" class="btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    Delete
                 </a>
             </div>
         </div>
@@ -37,8 +39,4 @@
 
 @section Styles {
     <partial name="_StylesPartial" />
-}
-
-@section Scripts {
-    <partial name="_ValidationPartial" />
 }

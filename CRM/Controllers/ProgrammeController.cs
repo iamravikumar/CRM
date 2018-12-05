@@ -5,16 +5,18 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CRM.Data;
 using CRM.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Controllers
 {
-    public class NoteTypeController : Controller
+    [Authorize(Roles = "Officer")]
+    public class ProgrammeController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public NoteTypeController(ApplicationDbContext context)
+        public ProgrammeController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -26,9 +28,9 @@ namespace CRM.Controllers
 
             var user = await _context.ApplicationUsers.FindAsync(claim.Value);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
-            var sectors = await _context.NoteTypes.Where(s => s.TeamID == team.TeamID).ToListAsync();
+            var programmes = await _context.Programmes.Where(s => s.TeamID == team.TeamID).ToListAsync();
 
-            return View(sectors);
+            return View(programmes);
         }
 
         public IActionResult Create()
@@ -38,10 +40,10 @@ namespace CRM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(NoteType type)
+        public async Task<IActionResult> Create(Programme programme)
         {
             if (!ModelState.IsValid)
-                return NotFound(type);
+                return NotFound(programme);
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
@@ -49,12 +51,12 @@ namespace CRM.Controllers
             var user = await _context.ApplicationUsers.FindAsync(claim.Value);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
 
-            type.CreatedAt = DateTime.Now;
-            type.TeamID = team.TeamID;
+            programme.CreatedAt = DateTime.Now;
+            programme.TeamID = team.TeamID;
 
             try
             {
-                _context.NoteTypes.Add(type);
+                _context.Programmes.Add(programme);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
@@ -70,27 +72,27 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            NoteType type = await _context.NoteTypes.FindAsync(id);
+            Programme programme = await _context.Programmes.FindAsync(id);
 
-            if (type == null)
+            if (programme == null)
                 return NotFound();
 
-            return View(type);
+            return View(programme);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, NoteType type)
+        public async Task<IActionResult> Edit(int id, Programme programme)
         {
-            if (id != type.ID)
+            if (id != programme.ID)
                 return NotFound();
 
-            var existingType = await _context.NoteTypes.FindAsync(id);
+            var existingProgramme = await _context.Programmes.FindAsync(id);
 
             try
             {
-                existingType.Name = type.Name;
-                existingType.IsActive = type.IsActive;
+                existingProgramme.Name = programme.Name;
+                existingProgramme.IsActive = programme.IsActive;
 
                 await _context.SaveChangesAsync();
             }
@@ -107,23 +109,23 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            NoteType type = await _context.NoteTypes.FindAsync(id);
+            Programme programme = await _context.Programmes.FindAsync(id);
 
-            if (type == null)
+            if (programme == null)
                 return NotFound();
 
-            return View(type);
+            return View(programme);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            NoteType type = await _context.NoteTypes.FindAsync(id);
+            Programme programme = await _context.Programmes.FindAsync(id);
 
             try
             {
-                _context.NoteTypes.Remove(type);
+                _context.Programmes.Remove(programme);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)

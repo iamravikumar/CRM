@@ -2,13 +2,13 @@
 
 namespace CRM.Migrations
 {
-    public partial class AddIsActiveAttributeToNoteType : Migration
+    public partial class AddIsActiveToProgramme : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
                 name: "IsActive",
-                table: "NoteTypes",
+                table: "Programmes",
                 nullable: false,
                 defaultValue: false);
         }
@@ -17,7 +17,7 @@ namespace CRM.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "IsActive",
-                table: "NoteTypes");
+                table: "Programmes");
         }
     }
 }

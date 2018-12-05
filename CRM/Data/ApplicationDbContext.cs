@@ -21,7 +21,6 @@ namespace CRM.Data
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<Personnel> Personnels { get; set; }
         public DbSet<Firm> Firms { get; set; }
-        public DbSet<Note> Notes { get; set; }
-        public DbSet<NoteType> NoteTypes { get; set; }
+        public DbSet<Programme> Programmes { get; set; }
     }
 }

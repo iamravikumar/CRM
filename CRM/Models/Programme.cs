@@ -7,22 +7,27 @@ using System.Threading.Tasks;
 
 namespace CRM.Models
 {
-    public class NoteType
+    public class Programme
     {
         [Key]
         public int ID { get; set; }
 
         [Display(Name = "Team")]
-        public int? TeamID { get; set; }
+        public int TeamID { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
+        [Required]
+        public string Color { get; set; }
+
+        [Display(Name = "Status")]
         public bool IsActive { get; set; }
 
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
         [ForeignKey("TeamID")]
-        public virtual Team Team { get; set; }
+        public  virtual Team Team { get; set; }
     }
 }

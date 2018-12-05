@@ -72,48 +72,6 @@ namespace CRM.Migrations
                     b.ToTable("Firms");
                 });
 
-            modelBuilder.Entity("CRM.Models.Note", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("NoteTypeID");
-
-                    b.Property<int>("PersonnelID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("NoteTypeID");
-
-                    b.HasIndex("PersonnelID");
-
-                    b.ToTable("Notes");
-                });
-
-            modelBuilder.Entity("CRM.Models.NoteType", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("TeamID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TeamID");
-
-                    b.ToTable("NoteTypes");
-                });
-
             modelBuilder.Entity("CRM.Models.Personnel", b =>
                 {
                     b.Property<int>("ID")
@@ -159,6 +117,31 @@ namespace CRM.Migrations
                     b.HasIndex("TeamID");
 
                     b.ToTable("Personnels");
+                });
+
+            modelBuilder.Entity("CRM.Models.Programme", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("TeamID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("TeamID");
+
+                    b.ToTable("Programmes");
                 });
 
             modelBuilder.Entity("CRM.Models.Sector", b =>
@@ -417,32 +400,20 @@ namespace CRM.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CRM.Models.Note", b =>
-                {
-                    b.HasOne("CRM.Models.NoteType", "NoteType")
-                        .WithMany()
-                        .HasForeignKey("NoteTypeID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CRM.Models.Personnel", "Personnel")
-                        .WithMany()
-                        .HasForeignKey("PersonnelID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CRM.Models.NoteType", b =>
-                {
-                    b.HasOne("CRM.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamID");
-                });
-
             modelBuilder.Entity("CRM.Models.Personnel", b =>
                 {
                     b.HasOne("CRM.Models.Firm", "Firm")
                         .WithMany("Personnels")
                         .HasForeignKey("FirmID");
 
+                    b.HasOne("CRM.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CRM.Models.Programme", b =>
+                {
                     b.HasOne("CRM.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamID")
