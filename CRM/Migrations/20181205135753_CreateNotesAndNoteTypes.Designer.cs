@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181205135753_CreateNotesAndNoteTypes")]
+    partial class CreateNotesAndNoteTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,15 +103,9 @@ namespace CRM.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsActive");
-
                     b.Property<string>("Name");
 
-                    b.Property<int?>("TeamID");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("TeamID");
 
                     b.ToTable("NoteTypes");
                 });
@@ -428,13 +424,6 @@ namespace CRM.Migrations
                         .WithMany()
                         .HasForeignKey("PersonnelID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CRM.Models.NoteType", b =>
-                {
-                    b.HasOne("CRM.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamID");
                 });
 
             modelBuilder.Entity("CRM.Models.Personnel", b =>
