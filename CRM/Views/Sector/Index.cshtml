@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<CRM.Models.Sector>
-@using CRM.Services.Sector
+@using CRM.Services
 @inject SectorService SectorService
 @{
     ViewData["Title"] = "SECTORS";
@@ -52,10 +52,6 @@
                                         @if (SectorService.IsSectorUsed(item.ID) == true)
                                         {
                                             <span class="badge badge-warning">Used</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-info">Unused</span>
                                         }
                                     </td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>

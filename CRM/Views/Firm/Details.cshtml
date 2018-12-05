@@ -11,74 +11,107 @@
                 @ViewData["Title"]
             </div>
             <div class="card-body">
-                <form>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Name"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Firm Name" class="form-control" asp-for="Name" autocomplete="off">
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="SectorID"></label>
+                            <div class="col-lg-9">
                                 <input disabled placeholder="Sector" class="form-control" asp-for="Sector.Name" autocomplete="off">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="E-Mail" class="form-control" asp-for="Email" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Phone" class="form-control" asp-for="Phone" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Fax" class="form-control" asp-for="Fax" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Province" class="form-control" asp-for="Province" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="City" class="form-control" asp-for="City" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Country" class="form-control" asp-for="Country" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Website" class="form-control" asp-for="Website" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input disabled placeholder="Address" class="form-control" asp-for="Address" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Division"></label>
+                            <div class="col-lg-9">
                                 <input disabled placeholder="Division" class="form-control" asp-for="Division" autocomplete="off">
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <textarea disabled placeholder="Description" rows="5" class="form-control" asp-for="Description"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Email"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="E-Mail" class="form-control" asp-for="Email" autocomplete="off">
+                            </div>
+                        </div>
                     </div>
-                </form>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Phone"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Phone" class="form-control" asp-for="Phone" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Fax"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Fax" class="form-control" asp-for="Fax" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="City"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="City" class="form-control" asp-for="City" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Province"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Province" class="form-control" asp-for="Province" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Country"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Country" class="form-control" asp-for="Country" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Website"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Website" class="form-control" asp-for="Website" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label" asp-for="Address"></label>
+                            <div class="col-lg-9">
+                                <input disabled placeholder="Address" class="form-control" asp-for="Address" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea disabled placeholder="Description" class="form-control" asp-for="Description"></textarea>
+                </div>
             </div>
             <div class="card-footer">
                 <div class="row">
@@ -87,15 +120,15 @@
                             <i class="fa fa-angle-left"></i>
                             Back to Team List
                         </a>
-                        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-dark">
+                        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">
                             Go to Update
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </div>
                     <div class="col text-right">
-                        <a asp-action="Create" asp-route-id="@Model.ID" asp-controller="Directory" class="btn btn-primary">
+                        <a asp-action="Create" asp-controller="Personnel" class="btn btn-primary">
                             <i class="fa fa-plus-circle"></i>
-                            Add to Personnel to @Model.Name
+                            Create to Personnel to @Model.Name
                         </a>
                     </div>
                 </div>
@@ -137,7 +170,7 @@
                                     <td class="align-middle">@item.MiniAddress()</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
-                                        <a asp-action="Details" asp-route-id="@item.ID" asp-controller="Directory" class="btn btn-sm btn-outline-dark">
+                                        <a asp-action="Details" asp-route-id="@item.ID" asp-controller="Personnel" class="btn btn-sm btn-outline-dark">
                                             <span class="fa fa-eye"></span>
                                         </a>
                                     </td>

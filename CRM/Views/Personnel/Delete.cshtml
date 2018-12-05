@@ -1,6 +1,6 @@
-﻿@model CRM.Models.ViewModels.FirmViewModel
+﻿@model CRM.Models.ViewModels.DirectoryViewModel
 @{
-    ViewData["Title"] = "DELETE THE EXISTING FIRM";
+    ViewData["Title"] = "DELETE THE EXISTING PERSONNEL";
 }
 
 <div class="row">
@@ -9,9 +9,9 @@
             <div class="card-header text-center">
                 @ViewData["Title"]
             </div>
-            <div class="card-body text-center">
-                Are you sure you want to delete firm <strong>@Model.Firm.Name</strong>?
-                <form hidden id="form" method="post" asp-action="Delete" asp-antiforgery="true" asp-route-id="@Model.Firm.ID"></form>
+            <div class="card-body">
+                Are you sure you want to delete personnel <strong>@Model.Personnel.FullName()</strong> from the directory?
+                <form hidden id="form" method="post" asp-antiforgery="true" asp-route-id="@Model.Personnel.ID"></form>
             </div>
             <div class="card-footer text-center">
                 <a asp-action="Index" class="btn btn-secondary">

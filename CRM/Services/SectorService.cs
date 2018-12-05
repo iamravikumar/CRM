@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CRM.Services.Sector
+namespace CRM.Services
 {
     public class SectorService
     {
@@ -20,13 +20,9 @@ namespace CRM.Services.Sector
             var firms = _context.Firms.Where(t => t.SectorID == id).ToList().Count();
 
             if (firms == 0)
-            {
                 return false;
-            }
             else
-            {
                 return true;
-            }
         }
     }
 }

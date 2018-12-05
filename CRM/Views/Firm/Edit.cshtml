@@ -13,81 +13,117 @@
                 <form id="form" method="post" asp-action="Edit" asp-antiforgery="true" asp-route-id="@Model.Firm.ID">
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Name" class="form-control" asp-for="Firm.Name" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Name"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Name"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Firm Name" class="form-control" asp-for="Firm.Name" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Name"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <select asp-for="Firm.SectorID" class="form-control" asp-items="@(new SelectList(Model.Sectors, "ID", "Name"))">
-                                    <option>Select Sector</option>
-                                </select>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.SectorID"></label>
+                                <div class="col-lg-9">
+                                    <select asp-for="Firm.SectorID" class="form-control" asp-items="@(new SelectList(Model.Sectors, "ID", "Name"))">
+                                        <option value="">Select a Sector</option>
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="Firm.SectorID"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Division"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Division" class="form-control" asp-for="Firm.Division" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Division"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="E-Mail" class="form-control" asp-for="Firm.Email" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Email"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Email"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="E-Mail" class="form-control" asp-for="Firm.Email" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Email"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Phone" class="form-control" asp-for="Firm.Phone" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Phone"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Phone"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Phone" class="form-control" asp-for="Firm.Phone" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Phone"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Fax" class="form-control" asp-for="Firm.Fax" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Fax"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Fax"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Fax" class="form-control" asp-for="Firm.Fax" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Fax"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Province" class="form-control" asp-for="Firm.Province" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Province"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.City"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="City" class="form-control" asp-for="Firm.City" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.City"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="City" class="form-control" asp-for="Firm.City" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.City"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Province"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Province" class="form-control" asp-for="Firm.Province" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Province"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Country" class="form-control" asp-for="Firm.Country" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Country"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Country"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Country" class="form-control" asp-for="Firm.Country" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Country"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Website" class="form-control" asp-for="Firm.Website" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Website"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Website"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Website" class="form-control" asp-for="Firm.Website" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Website"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Address" class="form-control" asp-for="Firm.Address" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Address"></span>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label" asp-for="Firm.Address"></label>
+                                <div class="col-lg-9">
+                                    <input placeholder="Address" class="form-control" asp-for="Firm.Address" autocomplete="off">
+                                    <span class="text-danger" asp-validation-for="Firm.Address"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input placeholder="Division" class="form-control" asp-for="Firm.Division" autocomplete="off">
-                                <span class="text-danger" asp-validation-for="Firm.Division"></span>
-                            </div>
-                        </div>
+                        <div class="col"></div>
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Description" class="form-control" rows="5" asp-for="Firm.Description"></textarea>
+                        <label asp-for="Firm.Description"></label>
+                        <textarea placeholder="Description" class="form-control" asp-for="Firm.Description"></textarea>
                     </div>
                 </form>
             </div>

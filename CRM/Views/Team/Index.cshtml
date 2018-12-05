@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<CRM.Models.Team>
-@using CRM.Services.Team
+@using CRM.Services
 @inject TeamService TeamService
 @{
     ViewData["Title"] = "TEAM LIST";
@@ -39,6 +39,7 @@
                                 <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.Description)</th>
                                 <th scope="col" class="text-center">Members</th>
+                                <th scope="col">Founder</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -64,6 +65,7 @@
                                         }
                                     </td>
                                     <td class="text-center align-middle">@TeamService.MembersCount(item.ID)</td>
+                                    <td class="align-middle">@TeamService.TeamFounder(item.ID).User.FullName()</td>
                                     <td class="align-middle">@item.CreatedAt.ToShortDateString()</td>
                                     <td class="text-right align-middle">
                                         @if (User.IsInRole("User"))

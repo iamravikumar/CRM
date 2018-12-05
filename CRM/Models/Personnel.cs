@@ -19,7 +19,7 @@ namespace CRM.Models
         public int? FirmID { get; set; }
 
         [Required]
-        [Display(Name = "Fisrt Name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]

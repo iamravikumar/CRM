@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CRM.Data;
-using CRM.Services.Sector;
-using CRM.Services.Team;
+using CRM.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,8 +30,8 @@ namespace CRM
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddTransient<TeamService>();
             services.AddTransient<SectorService>();
+            services.AddTransient<TeamService>();
 
             services.ConfigureApplicationCookie(options =>
             {

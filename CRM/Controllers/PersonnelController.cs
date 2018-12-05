@@ -13,14 +13,14 @@ using Microsoft.EntityFrameworkCore;
 namespace CRM.Controllers
 {
     [Authorize(Roles = "Officer, Member")]
-    public class DirectoryController : Controller
+    public class PersonnelController : Controller
     {
         private readonly ApplicationDbContext _context;
 
         [BindProperty]
         public DirectoryViewModel Model { get; set; }
 
-        public DirectoryController(ApplicationDbContext context)
+        public PersonnelController(ApplicationDbContext context)
         {
             _context = context;
 
@@ -31,6 +31,7 @@ namespace CRM.Controllers
             };
         }
 
+        [Route("Directory")]
         public async Task<IActionResult> Index()
         {
             var identity = (ClaimsIdentity)this.User.Identity;
@@ -159,12 +160,12 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Model.Personnel = await _context.Personnels.FirstOrDefaultAsync(f => f.ID == id);
+            Personnel personnel = await _context.Personnels.Include(p => p.Firm).FirstOrDefaultAsync(f => f.ID == id);
 
-            if (Model.Personnel == null)
+            if (personnel == null)
                 return NotFound();
 
-            return View(Model);
+            return View(personnel);
         }
     }
 }
