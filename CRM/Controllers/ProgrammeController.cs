@@ -92,6 +92,7 @@ namespace CRM.Controllers
             try
             {
                 existingProgramme.Name = programme.Name;
+                existingProgramme.Color = programme.Color;
                 existingProgramme.IsActive = programme.IsActive;
 
                 await _context.SaveChangesAsync();

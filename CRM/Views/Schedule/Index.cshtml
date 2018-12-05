@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CRM.Models.Schedule>
+@{ 
+    ViewData["Title"] = "SCHEDULES";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+
+            <div class="card-body text-center">
+                <div id="calendar"></div>
+            </div>
+            <div class="card-footer text-center">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+    <link href='~/lib/fullcalendar/dist/fullcalendar.min.css' rel='stylesheet' />
+}
+
+@section Scripts {
+    <script src='~/lib/moment/moment.js'></script>
+    <script src='~/lib/fullcalendar/dist/fullcalendar.min.js'></script>
+    <script>
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                defaultView: 'agendaWeek',
+                editable: false,
+                eventLimit: true,
+                firstDay: 1,
+                allDaySlot: false,
+                events: 'https://localhost:44378/Schedule/Schedules',
+                businessHours: {
+                    dow: [ 1, 2, 3, 4, 5],
+                    start: '9:00',
+                    end: '18:00',
+                }
+            });
+        });
+    </script>
+}

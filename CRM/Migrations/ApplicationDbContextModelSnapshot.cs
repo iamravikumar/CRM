@@ -144,6 +144,35 @@ namespace CRM.Migrations
                     b.ToTable("Programmes");
                 });
 
+            modelBuilder.Entity("CRM.Models.Schedule", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<DateTime>("FinishedAt");
+
+                    b.Property<int>("PersonnelID");
+
+                    b.Property<int?>("ProgrammeID");
+
+                    b.Property<DateTime>("StartedAt");
+
+                    b.Property<int?>("TeamID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PersonnelID");
+
+                    b.HasIndex("ProgrammeID");
+
+                    b.HasIndex("TeamID");
+
+                    b.ToTable("Schedules");
+                });
+
             modelBuilder.Entity("CRM.Models.Sector", b =>
                 {
                     b.Property<int>("ID")
@@ -418,6 +447,22 @@ namespace CRM.Migrations
                         .WithMany()
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CRM.Models.Schedule", b =>
+                {
+                    b.HasOne("CRM.Models.Personnel", "Personnel")
+                        .WithMany()
+                        .HasForeignKey("PersonnelID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CRM.Models.Programme", "Programme")
+                        .WithMany()
+                        .HasForeignKey("ProgrammeID");
+
+                    b.HasOne("CRM.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamID");
                 });
 
             modelBuilder.Entity("CRM.Models.Sector", b =>

@@ -10,6 +10,10 @@
     <Compile Remove="Migrations\20181203184440_CreateFirms.Designer.cs" />
     <Compile Remove="Migrations\20181203185259_CreateFirmsAndCustomers.cs" />
     <Compile Remove="Migrations\20181203185259_CreateFirmsAndCustomers.Designer.cs" />
+    <Compile Remove="Migrations\20181205145821_CreateSchedules.cs" />
+    <Compile Remove="Migrations\20181205145821_CreateSchedules.Designer.cs" />
+    <Compile Remove="Migrations\20181205145927_CreateSchedules.cs" />
+    <Compile Remove="Migrations\20181205145927_CreateSchedules.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

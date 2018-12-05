@@ -22,5 +22,6 @@ namespace CRM.Data
         public DbSet<Personnel> Personnels { get; set; }
         public DbSet<Firm> Firms { get; set; }
         public DbSet<Programme> Programmes { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
     }
 }
