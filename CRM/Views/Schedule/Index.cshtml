@@ -30,18 +30,29 @@
     <script>
         $(document).ready(function() {
             $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next',
+                    center: '',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                buttonText: {
+                   month: 'Month', 
+                   agendaDay: 'Day', 
+                   agendaWeek: 'Week',
+                   today: 'Today'
+                },
                 defaultView: 'agendaWeek',
                 editable: false,
-                eventLimit: true,
                 firstDay: 1,
                 allDaySlot: false,
                 events: 'https://localhost:44378/Schedule/Schedules',
-                businessHours: {
-                    dow: [ 1, 2, 3, 4, 5],
-                    start: '9:00',
-                    end: '18:00',
-                }
+                contentHeight: 500,
             });
+            
+            var $leftButtons = $('.fc-left .fc-button-group button').removeClass();
+            var $rightButtons = $('.fc-right .fc-button-group button').removeClass();
+            $leftButtons.addClass('btn btn-primary');
+            $rightButtons.addClass('btn btn-primary');
         });
     </script>
 }

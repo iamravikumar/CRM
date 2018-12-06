@@ -46,7 +46,9 @@
                                             <span class="badge badge-danger">Inactive</span>
                                         }
                                     </td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.Color)</td>
+                                    <td class="align-middle">
+                                        <span style="background: @Html.DisplayFor(m => item.Color)" class="badge">@Html.DisplayFor(m => item.Color)</span>
+                                    </td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
                                         <partial name="_DefaultActionButtonsPartial" model="@item.ID" />

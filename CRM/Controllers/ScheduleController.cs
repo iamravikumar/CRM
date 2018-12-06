@@ -32,12 +32,13 @@ namespace CRM.Controllers
 
         public IActionResult Schedules()
         {
-            return Json(_context.Schedules.Include(s => s.Programme).AsEnumerable().Select(s => new {
+            return Json(_context.Schedules.Include(s => s.Personnel).Include(s => s.Programme).AsEnumerable().Select(s => new {
                 id = s.ID,
-                title = s.Programme.Name,
+                title = s.Programme.Name + " with " + s.Personnel.FullName(),
                 start = s.StartedAt.ToString("yyyy-MM-dd") + "T" + s.StartedAt.ToLongTimeString(),
                 end = s.FinishedAt.ToString("yyyy-MM-dd") + "T" + s.FinishedAt.ToLongTimeString(),
                 color = s.Programme.Color,
+                url = "Schedule/Edit/" + s.ID
             }));
         }
 
@@ -88,6 +89,56 @@ namespace CRM.Controllers
             try
             {
                 _context.Schedules.Add(Model.Schedule);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e + ": An error occurred.");
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+
+            Model = new ScheduleViewModel()
+            {
+                Programmes = _context.Programmes.Where(p => p.TeamID == team.TeamID).Where(p => p.IsActive).ToList(),
+                Schedule = new Schedule()
+            };
+
+            if (id == null)
+                return NotFound();
+
+            Model.Schedule = await _context.Schedules.FindAsync(id);
+
+            if (Model.Schedule == null)
+                return NotFound();
+
+            return View(Model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (!ModelState.IsValid)
+                return View(Model);
+
+            Schedule schedule = await _context.Schedules.FindAsync(id);
+
+            try
+            {
+                schedule.StartedAt = Model.Schedule.StartedAt;
+                schedule.FinishedAt = Model.Schedule.FinishedAt;
+                schedule.ProgrammeID = Model.Schedule.ProgrammeID;
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)

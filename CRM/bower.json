@@ -2,6 +2,7 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "fullcalendar": "v3.9.0"
+    "fullcalendar": "v3.9.0",
+    "bootstrap-colorpicker-plus": "v0.1.1"
   }
 }

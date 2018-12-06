@@ -1,0 +1,59 @@
+﻿@model CRM.Models.ViewModels.ScheduleViewModel
+@{
+    ViewData["Title"] = "CREATE A NEW SCHEDULE";
+}
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-action="Edit" asp-antiforgery="true">
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" asp-for="Schedule.StartedAt"></label>
+                        <div class="col-lg-9">
+                            <input placeholder="Name" class="form-control" asp-for="Schedule.StartedAt" autocomplete="off">
+                            <span class="text-danger" asp-validation-for="Schedule.StartedAt"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" asp-for="Schedule.FinishedAt"></label>
+                        <div class="col-lg-9">
+                            <input placeholder="Name" class="form-control" asp-for="Schedule.FinishedAt" autocomplete="off">
+                            <span class="text-danger" asp-validation-for="Schedule.FinishedAt"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label" asp-for="Schedule.ProgrammeID"></label>
+                        <div class="col-lg-9">
+                            <select asp-for="Schedule.ProgrammeID" class="form-control" asp-items="@(new SelectList(Model.Programmes, "ID", "Name"))">
+                                <option value="">Select a Programme</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="Schedule.ProgrammeID"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-angle-left"></i>
+                    Back to Team List
+                </a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-refresh"></i>
+                    Update
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+}
