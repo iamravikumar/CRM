@@ -30,18 +30,6 @@ namespace CRM.Controllers
             return View();
         }
 
-        public IActionResult Schedules()
-        {
-            return Json(_context.Schedules.Include(s => s.Personnel).Include(s => s.Programme).AsEnumerable().Select(s => new {
-                id = s.ID,
-                title = s.Programme.Name + " with " + s.Personnel.FullName(),
-                start = s.StartedAt.ToString("yyyy-MM-dd") + "T" + s.StartedAt.ToLongTimeString(),
-                end = s.FinishedAt.ToString("yyyy-MM-dd") + "T" + s.FinishedAt.ToLongTimeString(),
-                color = s.Programme.Color,
-                url = "Schedule/Edit/" + s.ID
-            }));
-        }
-
         public async Task<IActionResult> Create(int? id)
         {
             if (id == null)
