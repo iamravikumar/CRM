@@ -32,6 +32,8 @@ namespace CRM
 
             services.AddTransient<SectorService>();
             services.AddTransient<TeamService>();
+            services.AddTransient<ScheduleService>();
+            services.AddTransient<ProgrammeService>();
 
             services.ConfigureApplicationCookie(options =>
             {

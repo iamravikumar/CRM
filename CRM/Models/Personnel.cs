@@ -58,6 +58,8 @@ namespace CRM.Models
         [ForeignKey("FirmID")]
         public virtual Firm Firm { get; set; }
 
+        public virtual IEnumerable<Schedule> Schedules { get; set; }
+
         public string FullName()
         {
             return LastName + ", " + FirstName;

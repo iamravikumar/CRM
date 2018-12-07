@@ -1,12 +1,12 @@
 ﻿<ul class="navbar-nav mr-auto">
     <li class="nav-item">
-        <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-action="Index" asp-controller="Home">Home</a>
     </li>
     @if (User.Identity.IsAuthenticated)
     {
         @if (User.IsInRole("User") || User.IsInRole("PassiveMember"))
         {
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Team" ? "active" : "")">
                 <a class="nav-link" asp-action="Index" asp-controller="Team">Team</a>
             </li>
         }
@@ -14,26 +14,26 @@
         @if (User.IsInRole("Officer") || User.IsInRole("Member"))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Schedule">Schedule</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Schedule" ? "active" : "")" asp-action="Index" asp-controller="Schedule">Schedule</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Personnel">Directory</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Personnel" ? "active" : "")" asp-action="Index" asp-controller="Personnel">Directory</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Dashboard" asp-controller="Team">Team</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Team" ? "active" : "")" asp-action="Dashboard" asp-controller="Team">Team</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Firm">Firms</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Firm" ? "active" : "")" asp-action="Index" asp-controller="Firm">Firms</a>
             </li>
         }
 
         @if (User.IsInRole("Officer"))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Sector">Sectors</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Sector" ? "active" : "")" asp-action="Index" asp-controller="Sector">Sectors</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Programme">Programmes</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Programme" ? "active" : "")" asp-action="Index" asp-controller="Programme">Programmes</a>
             </li>
         }
     }

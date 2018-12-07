@@ -25,9 +25,15 @@ namespace CRM.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+
+            return View(team);
         }
 
         public async Task<IActionResult> Create(int? id)

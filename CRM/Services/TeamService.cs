@@ -17,7 +17,7 @@ namespace CRM.Services
             _context = context;
         }
 
-        public int MembersCount(int id)
+        public int MemberCounts(int id)
         {
             return _context.TeamMembers.Where(t => t.TeamID == id).Where(t => t.IsActive == true).ToList().Count();
         }

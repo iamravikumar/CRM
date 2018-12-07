@@ -160,7 +160,7 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Personnel personnel = await _context.Personnels.Include(p => p.Firm).FirstOrDefaultAsync(f => f.ID == id);
+            Personnel personnel = await _context.Personnels.Include(p => p.Firm).Include(p => p.Schedules).ThenInclude(s => s.Programme).FirstOrDefaultAsync(f => f.ID == id);
 
             if (personnel == null)
                 return NotFound();

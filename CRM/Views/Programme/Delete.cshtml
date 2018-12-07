@@ -1,4 +1,6 @@
 ﻿@model CRM.Models.Programme
+@using CRM.Services
+@inject ProgrammeService ProgrammeService
 @{
     ViewData["Title"] = "DELETE THE EXISTING PROGRAMME";
 }
@@ -22,16 +24,33 @@
                         <label class="form-check-label" asp-for="IsActive"></label>
                     </div>
                 </form>
+                @if (ProgrammeService.IsProgrammeUsed(Model.ID) == true)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-info-circle"></i>
+                        You cannot delete a programme which used on schedules.
+                    </div>
+                }
             </div>
             <div class="card-footer">
                 <a asp-action="Index" class="btn btn-secondary">
                     <i class="fa fa-angle-left"></i>
                     Back to Team List
                 </a>
-                <a href="javascript: $('#form').submit()" class="btn btn-danger">
-                    <i class="fa fa-trash"></i>
-                    Delete
-                </a>
+                @if (ProgrammeService.IsProgrammeUsed(Model.ID) == true)
+                {
+                    <a href="" class="disabled btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript: $('#form').submit()" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </a>
+                }
             </div>
         </div>
     </div>

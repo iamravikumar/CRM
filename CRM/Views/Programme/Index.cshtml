@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CRM.Models.Programme>
+@using CRM.Services
+@inject ProgrammeService ProgrammeService
 @{
     ViewData["Title"] = "PROGRAMMES";
     int counter = 1;
@@ -26,6 +28,7 @@
                                 <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
                                 <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.IsActive)</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.Color)</th>
+                                <th scope="col" class="text-center">Usage Status</th>
                                 <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -48,6 +51,12 @@
                                     </td>
                                     <td class="align-middle">
                                         <span style="background: @Html.DisplayFor(m => item.Color)" class="badge">@Html.DisplayFor(m => item.Color)</span>
+                                    </td>
+                                                                        <td class="align-middle text-center">
+                                        @if (ProgrammeService.IsProgrammeUsed(item.ID) == true)
+                                        {
+                                            <span class="badge badge-warning">Used</span>
+                                        }
                                     </td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
