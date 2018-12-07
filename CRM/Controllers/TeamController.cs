@@ -123,9 +123,15 @@ namespace CRM.Controllers
         }
 
         [Authorize(Roles = "Officer, Member")]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            return View();
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+
+            return View(team);
         }
 
         [Authorize(Roles = "Officer")]

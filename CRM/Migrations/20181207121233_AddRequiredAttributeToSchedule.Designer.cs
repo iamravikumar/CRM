@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181207121233_AddRequiredAttributeToSchedule")]
+    partial class AddRequiredAttributeToSchedule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,35 +72,6 @@ namespace CRM.Migrations
                     b.HasIndex("TeamID");
 
                     b.ToTable("Firms");
-                });
-
-            modelBuilder.Entity("CRM.Models.Message", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Body")
-                        .IsRequired();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<bool>("IsViewed");
-
-                    b.Property<string>("ReceiverID");
-
-                    b.Property<string>("Subject")
-                        .IsRequired();
-
-                    b.Property<string>("WriterID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ReceiverID");
-
-                    b.HasIndex("WriterID");
-
-                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("CRM.Models.Personnel", b =>
@@ -456,17 +429,6 @@ namespace CRM.Migrations
                         .WithMany()
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CRM.Models.Message", b =>
-                {
-                    b.HasOne("CRM.Models.ApplicationUser", "Receiver")
-                        .WithMany()
-                        .HasForeignKey("ReceiverID");
-
-                    b.HasOne("CRM.Models.ApplicationUser", "Writer")
-                        .WithMany()
-                        .HasForeignKey("WriterID");
                 });
 
             modelBuilder.Entity("CRM.Models.Personnel", b =>

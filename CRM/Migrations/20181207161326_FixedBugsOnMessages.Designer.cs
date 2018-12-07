@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181207161326_FixedBugsOnMessages")]
+    partial class FixedBugsOnMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,13 +92,13 @@ namespace CRM.Migrations
                     b.Property<string>("Subject")
                         .IsRequired();
 
-                    b.Property<string>("WriterID");
+                    b.Property<string>("UserID");
 
                     b.HasKey("ID");
 
                     b.HasIndex("ReceiverID");
 
-                    b.HasIndex("WriterID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Messages");
                 });
@@ -464,9 +466,9 @@ namespace CRM.Migrations
                         .WithMany()
                         .HasForeignKey("ReceiverID");
 
-                    b.HasOne("CRM.Models.ApplicationUser", "Writer")
+                    b.HasOne("CRM.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("WriterID");
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("CRM.Models.Personnel", b =>

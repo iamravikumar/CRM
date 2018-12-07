@@ -43,7 +43,7 @@ namespace CRM.Controllers
         public async Task<IActionResult> Create(Sector sector)
         {
             if (!ModelState.IsValid)
-                return NotFound(sector);
+                return View(sector);
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);

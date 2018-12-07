@@ -13,13 +13,13 @@ namespace CRM.Models
         public int ID { get; set; }
 
         [Display(Name = "Personnel")]
-        public int PersonnelID { get; set; }
+        public int? PersonnelID { get; set; }
 
         [Display(Name = "Team")]
         public int? TeamID { get; set; }
 
         [Display(Name = "Programme")]
-        public int? ProgrammeID { get; set; }
+        public int ProgrammeID { get; set; }
 
         [Display(Name = "Started At")]
         public DateTime StartedAt { get; set; }

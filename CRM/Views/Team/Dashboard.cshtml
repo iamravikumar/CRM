@@ -1,4 +1,7 @@
-﻿@{
+﻿@model CRM.Models.TeamMember
+@using CRM.Services
+@inject TeamService TeamService
+@{
     ViewData["Title"] = "TEAM DASHBOARD";
 }
 
@@ -7,21 +10,49 @@
 <div class="row">
     <div class="col">
         <div class="card">
-            <div class="card-header text-center">
-                @ViewData["Title"]
-            </div>
             <div class="card-body">
-                Dashboard
+                <i class="fa fa-user-circle-o"></i>
+                Total Member(s): @TeamService.MemberCounts(Model.TeamID)
+            </div>
+            <div class="card-footer">
+                <i class="fa fa-refresh"></i>
+                Updated Now
             </div>
         </div>
     </div>
     <div class="col">
         <div class="card">
-            <div class="card-header text-center">
-                @ViewData["Title"]
-            </div>
             <div class="card-body">
-                Dashboard
+                <i class="fa fa-handshake-o"></i>
+                Total Applicant(s): @TeamService.ApplicatanCounts(Model.TeamID)
+            </div>
+            <div class="card-footer">
+                <i class="fa fa-refresh"></i>
+                Updated Now
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <i class="fa fa-briefcase"></i>
+                Total Firm(s): @TeamService.FirmCounts(Model.TeamID)
+            </div>
+            <div class="card-footer">
+                <i class="fa fa-refresh"></i>
+                Updated Now
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <i class="fa fa-vcard-o"></i>
+                Total Personnel(s): @TeamService.PersonnelCounts(Model.TeamID)
+            </div>
+            <div class="card-footer">
+                <i class="fa fa-refresh"></i>
+                Updated Now
             </div>
         </div>
     </div>

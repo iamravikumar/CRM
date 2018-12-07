@@ -14,6 +14,8 @@
     <Compile Remove="Migrations\20181205145821_CreateSchedules.Designer.cs" />
     <Compile Remove="Migrations\20181205145927_CreateSchedules.cs" />
     <Compile Remove="Migrations\20181205145927_CreateSchedules.Designer.cs" />
+    <Compile Remove="Migrations\20181207143935_CreateMessages.cs" />
+    <Compile Remove="Migrations\20181207143935_CreateMessages.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

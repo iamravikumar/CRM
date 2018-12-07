@@ -1,0 +1,43 @@
+﻿@model CRM.Models.ViewModels.InboxViewModel
+@{
+    ViewData["Title"] = "INBOX";
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="list-group">
+            @foreach (var item in Model.Inbox)
+            {
+                <a asp-route-id="@item.ID" class="list-group-item list-group-item-action @if (item.ID == Model.Message.ID) { @Html.Raw("active") } ">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="mb-1">Subject: @item.Subject</div>
+                        <small>@item.CreatedAt</small>
+                    </div>
+                    <small>From: @item.Writer.FullName()</small>
+                    <p class="mb-1">
+                        @if (item.Body.Length > 100) { @item.Body.Substring(0, 100) } else { @item.Body }
+                    </p>
+                    @if (item.IsViewed == false)
+                    {
+                        <span class="badge badge-primary badge-pill">New</span>
+                    }
+                </a>
+            }
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                @Model.Message.Subject <br />
+                <small>From: @Model.Message.Writer.FullName() | Created at: @Model.Message.CreatedAt</small>
+            </div>
+            <div class="card-body">
+                @Model.Message.Body
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}

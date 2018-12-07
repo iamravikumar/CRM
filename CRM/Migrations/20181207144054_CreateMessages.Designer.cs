@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181207144054_CreateMessages")]
+    partial class CreateMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +85,7 @@ namespace CRM.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsViewed");
+                    b.Property<int?>("MessageID");
 
                     b.Property<string>("ReceiverID");
 
@@ -93,6 +95,8 @@ namespace CRM.Migrations
                     b.Property<string>("WriterID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("MessageID");
 
                     b.HasIndex("ReceiverID");
 
@@ -460,6 +464,10 @@ namespace CRM.Migrations
 
             modelBuilder.Entity("CRM.Models.Message", b =>
                 {
+                    b.HasOne("CRM.Models.Message")
+                        .WithMany("Messages")
+                        .HasForeignKey("MessageID");
+
                     b.HasOne("CRM.Models.ApplicationUser", "Receiver")
                         .WithMany()
                         .HasForeignKey("ReceiverID");
