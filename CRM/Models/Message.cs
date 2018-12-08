@@ -15,6 +15,8 @@ namespace CRM.Models
 
         public string ReceiverID { get; set; }
 
+        public int? ParentID { get; set; }
+
         [Required]
         public string Subject { get; set; }
 
@@ -32,5 +34,8 @@ namespace CRM.Models
 
         [ForeignKey("ReceiverID")]
         public virtual ApplicationUser Receiver { get; set; }
+
+        [ForeignKey("ParentID")]
+        public virtual IEnumerable<Message> Messages { get; set; }
     }
 }

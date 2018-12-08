@@ -5,34 +5,60 @@
 
 <div class="row">
     <div class="col-lg-4">
-        <div class="list-group">
-            @foreach (var item in Model.Inbox)
-            {
-                <a asp-route-id="@item.ID" class="list-group-item list-group-item-action @if (item.ID == Model.Message.ID) { @Html.Raw("active") } ">
-                    <div class="d-flex w-100 justify-content-between">
-                        <div class="mb-1">Subject: @item.Subject</div>
-                        <small>@item.CreatedAt</small>
-                    </div>
-                    <small>From: @item.Writer.FullName()</small>
-                    <p class="mb-1">
-                        @if (item.Body.Length > 100) { @item.Body.Substring(0, 100) } else { @item.Body }
-                    </p>
-                    @if (item.IsViewed == false)
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group">
+                    @foreach (var item in Model.Inbox)
                     {
-                        <span class="badge badge-primary badge-pill">New</span>
-                    }
+                        <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID || item.ID == 0) { @Html.Raw("active") }">
+                            <div class="d-flex w-100 justify-content-between">
+                                <strong class="mb-1">
+                                    @if (item.Subject.Length > 25)
+                                    {@item.Subject.Substring(0, 25) @Html.Raw("...") }
+                                else
+                                { @item.Subject}
+                            </strong>
+                            @if (item.IsViewed == false)
+                            {
+                                <small>
+                                    <span class="badge badge-primary badge-pill">New</span>
+                                </small>
+                            }
+                        </div>
+                        <small>From: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
+                        <p class="mb-1">
+                            @if (item.Body.Length > 100)
+                            {@item.Body.Substring(0, 100) @Html.Raw("...") }
+                        else
+                        { @item.Body}
+                    </p>
                 </a>
             }
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                Total Message(s): @Model.Inbox.Count()
+            </div>
         </div>
+
     </div>
     <div class="col-lg-8">
-        <div class="card">
+        <div class="card mb-5">
             <div class="card-header">
                 @Model.Message.Subject <br />
                 <small>From: @Model.Message.Writer.FullName() | Created at: @Model.Message.CreatedAt</small>
             </div>
             <div class="card-body">
                 @Model.Message.Body
+            </div>
+            <div class="card-footer text-right">
+                <a asp-action="Reply" asp-route-id="@Model.Message.ID" class="btn btn-primary">
+                    <span class="fa fa-paper-plane"></span>
+                    Reply This Message
+                </a>
             </div>
         </div>
     </div>

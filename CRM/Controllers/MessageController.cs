@@ -26,12 +26,16 @@ namespace CRM.Controllers
         {
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
             Message currentMessage;
 
             if (id != null)
-                currentMessage = await _context.Messages.Include(m => m.Writer).FirstOrDefaultAsync(m => m.ID == id);
+                currentMessage = await _context.Messages.Include(m => m.Receiver).Where(m => m.ReceiverID == claim.Value).Where(m => m.ParentID == null).FirstOrDefaultAsync(m => m.ID == id);
             else
-                currentMessage = await _context.Messages.Include(m => m.Writer).OrderByDescending(m => m.CreatedAt).Take(1).FirstOrDefaultAsync();
+                currentMessage = await _context.Messages.Include(m => m.Receiver).Where(m => m.ReceiverID == claim.Value).Where(m => m.ParentID == null).OrderByDescending(m => m.CreatedAt).Take(1).FirstOrDefaultAsync();
+
+            if (currentMessage == null)
+                return NotFound();
 
             if (currentMessage.IsViewed != true)
             {
@@ -67,9 +71,9 @@ namespace CRM.Controllers
             return View(messageModel);
         }
 
-        [HttpPost, ActionName(nameof(Send))]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Store(string id, MessageViewModel messageModel)
+        public async Task<IActionResult> Send(string id, MessageViewModel messageModel)
         {
             if (!ModelState.IsValid)
                 return View(messageModel);
@@ -79,6 +83,7 @@ namespace CRM.Controllers
 
             messageModel.Message.WriterID = claim.Value;
             messageModel.Message.ReceiverID = id;
+            messageModel.Message.IsViewed = false;
             messageModel.Message.CreatedAt = DateTime.Now;
 
             try
