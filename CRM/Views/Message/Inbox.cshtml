@@ -13,30 +13,38 @@
                 <div class="list-group">
                     @foreach (var item in Model.Inbox)
                     {
-                        <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID || item.ID == 0) { @Html.Raw("active") }">
+                        <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
                             <div class="d-flex w-100 justify-content-between">
                                 <strong class="mb-1">
                                     @if (item.Subject.Length > 25)
-                                    {@item.Subject.Substring(0, 25) @Html.Raw("...") }
+                                    {
+                                        @item.Subject.Substring(0, 25) @Html.Raw("...") 
+                                    }
+                                    else
+                                    {
+                                        @item.Subject
+                                    }
+                                </strong>
+                                @if (item.IsViewed == false)
+                                {
+                                    <small>
+                                        <span class="badge badge-primary badge-pill">New</span>
+                                    </small>
+                                }
+                            </div>
+                            <small>From: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
+                            <p class="mb-1">
+                                @if (item.Body.Length > 100)
+                                {
+                                    @item.Body.Substring(0, 100) @Html.Raw("...") 
+                                }
                                 else
-                                { @item.Subject}
-                            </strong>
-                            @if (item.IsViewed == false)
-                            {
-                                <small>
-                                    <span class="badge badge-primary badge-pill">New</span>
-                                </small>
-                            }
-                        </div>
-                        <small>From: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
-                        <p class="mb-1">
-                            @if (item.Body.Length > 100)
-                            {@item.Body.Substring(0, 100) @Html.Raw("...") }
-                        else
-                        { @item.Body}
-                    </p>
-                </a>
-            }
+                                { 
+                                    @item.Body
+                                }
+                            </p>
+                        </a>
+                    }
                 </div>
             </div>
             <div class="card-footer text-center">
