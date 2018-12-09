@@ -48,13 +48,13 @@ namespace CRM.Controllers
                     .Take(1)
                     .FirstOrDefaultAsync();
 
-            if (currentMessage == null)
-                return NotFound();
-
-            if (currentMessage.IsViewed != true)
+            if (currentMessage != null)
             {
-                currentMessage.IsViewed = true;
-                await _context.SaveChangesAsync();
+                if (currentMessage.IsViewed != true)
+                {
+                    currentMessage.IsViewed = true;
+                    await _context.SaveChangesAsync();
+                }
             }
 
             InboxViewModel inboxModel = new InboxViewModel()

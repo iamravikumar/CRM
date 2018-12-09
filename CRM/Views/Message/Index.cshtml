@@ -4,95 +4,106 @@
 }
 
 <div class="row">
-    <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header text-center">
-                @ViewData["Title"]
-            </div>
-            <div class="card-body p-0">
-                <div class="list-group">
-                    @foreach (var item in Model.Inbox)
-                    {
-                        <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
-                            <div class="d-flex w-100 justify-content-between">
-                                <div class="mb-1">
-                                    @if (User.Identity.Name == item.Receiver.UserName)
-                                    {
-                                        <span class="text-primary fa fa-chevron-right"></span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-success fa fa-chevron-left"></span>
-                                    }
+    @if (Model.Inbox.Count() > 0)
+    {
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    @ViewData["Title"]
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group">
+                        @foreach (var item in Model.Inbox)
+                        {
+                            <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="mb-1">
+                                        @if (User.Identity.Name == item.Receiver.UserName)
+                                        {
+                                            <span class="text-primary fa fa-chevron-right"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success fa fa-chevron-left"></span>
+                                        }
 
-                                    @if (item.Subject.Length > 40)
+                                        @if (item.Subject.Length > 40)
+                                        {
+                                            @item.Subject.Substring(0, 40) @Html.Raw("...")
+                                        }
+                                        else
+                                        {
+                                            @item.Subject
+                                        }
+                                    </div>
+                                    @if (item.IsViewed == false)
                                     {
-                                        @item.Subject.Substring(0, 40) @Html.Raw("...")
-                                    }
-                                    else
-                                    {
-                                        @item.Subject
+                                        <small>
+                                            <span class="badge badge-primary badge-pill">New</span>
+                                        </small>
                                     }
                                 </div>
-                                @if (item.IsViewed == false)
-                                {
-                                    <small>
-                                        <span class="badge badge-primary badge-pill">New</span>
-                                    </small>
-                                }
-                            </div>
-                            <small>Writer: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
-                            <p class="mb-1">
-                                @if (item.Body.Length > 75)
-                                {
-                                    @item.Body.Substring(0, 75) @Html.Raw("...")
-                                }
-                                else
-                                {
-                                    @item.Body
-                                }
-                            </p>
-                        </a>
-                    }
+                                <small>Writer: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
+                                <p class="mb-1">
+                                    @if (item.Body.Length > 75)
+                                    {
+                                        @item.Body.Substring(0, 75) @Html.Raw("...")
+                                    }
+                                    else
+                                    {
+                                        @item.Body
+                                    }
+                                </p>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    Total Message(s): @Model.Inbox.Count()
                 </div>
             </div>
-            <div class="card-footer text-center">
-                Total Message(s): @Model.Inbox.Count()
-            </div>
         </div>
-    </div>
-    <div class="col-lg-8">
-        <div class="card  @if (Model.Message.Messages.Count() > 0) { @Html.Raw("mb-1") } ">
-            <div class="card-header">
-                @Model.Message.Subject <br />
-                <small>Writer: @Model.Message.Writer.FullName() | Receiver: @Model.Message.Receiver.FullName() | Created at: @Model.Message.CreatedAt</small>
+        <div class="col-lg-8">
+            <div class="card  @if (Model.Message.Messages.Count() > 0) { @Html.Raw("mb-1") } ">
+                <div class="card-header">
+                    @Model.Message.Subject <br />
+                    <small>Writer: @Model.Message.Writer.FullName() | Receiver: @Model.Message.Receiver.FullName() | Created at: @Model.Message.CreatedAt</small>
+                </div>
+                <div class="card-body">
+                    @Model.Message.Body
+                </div>
+                <div class="card-footer text-right">
+                    <a asp-action="Reply" asp-route-id="@Model.Message.ID" class="btn btn-primary">
+                        <span class="fa fa-paper-plane"></span>
+                        Reply This Message
+                    </a>
+                </div>
             </div>
-            <div class="card-body">
-                @Model.Message.Body
-            </div>
-            <div class="card-footer text-right">
-                <a asp-action="Reply" asp-route-id="@Model.Message.ID" class="btn btn-primary">
-                    <span class="fa fa-paper-plane"></span>
-                    Reply This Message
-                </a>
-            </div>
-        </div>
-        @if (Model.Message.Messages.Count() > 0)
-        {
-            @foreach (var item in Model.Message.Messages)
+            @if (Model.Message.Messages.Count() > 0)
             {
-                <div class="card mb-1">
-                    <div class="card-header">
-                        @item.Subject <br />
-                        <small>Writer: @item.Writer.FullName() | Receiver: @item.Receiver.FullName() | Created at: @item.CreatedAt</small>
+                @foreach (var item in Model.Message.Messages)
+                {
+                    <div class="card mb-1">
+                        <div class="card-header">
+                            @item.Subject <br />
+                            <small>Writer: @item.Writer.FullName() | Receiver: @item.Receiver.FullName() | Created at: @item.CreatedAt</small>
+                        </div>
+                        <div class="card-body">
+                            @item.Body
+                        </div>
                     </div>
-                    <div class="card-body">
-                        @item.Body
-                    </div>
-                </div>
+                }
             }
-        }
-    </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-lg-12">
+            <div class="alert alert-primary" role="alert">
+                There are no any resources to show here.
+            </div>
+        </div>
+    }
 </div>
 
 @section Styles {
