@@ -64,29 +64,84 @@
             <div class="card-header text-center">
                 TEAM CHAT
             </div>
-            <div class="card-header text-center">
-                TEAM CHAT
+            <div class="card-body p-0">
+                <ul id="chats" style="height: 250px; overflow-y: scroll;" class="list-group">
+                    <li class="list-group-item"></li>
+                </ul>
             </div>
             <div class="card-footer">
-                <i class="fa fa-refresh"></i>
-                Updated Now
+                <form id="form" asp-antiforgery="true">
+                    <div class="form-group row no-gutters">
+                        <div class="col-lg-10 pr-1">
+                            <input id="body" class="form-control" autocomplete="off" />
+                            <input id="user" hidden value="@Model.User.FullName()" />
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <span class="fa fa-paper-plane"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <i class="fa fa-vcard-o"></i>
-                Total Personnel(s): @TeamService.PersonnelCounts(Model.TeamID)
-            </div>
-            <div class="card-footer">
-                <i class="fa fa-refresh"></i>
-                Updated Now
-            </div>
-        </div>
-    </div>
+    <div class="col"></div>
 </div>
 
 @section Styles {
     <partial name="_StylesPartial" />
+    <style>
+        .list-group-item {
+            background: transparent;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            var form = $('#form');
+            var user = $('#user').val();
+            form.submit(function () {
+                var chat = { Body: $('#body').val() };
+                var json = JSON.stringify(chat);
+                $.ajax({
+                    url: '/api/chats',
+                    type: 'POST',
+                    data: json,
+                    cache: false,
+                    dataType: 'text',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#chats").append($('<li class="list-group-item">' + '<strong>' + user + '</strong>: ' + chat.Body + '</li>'));
+                        $("#form")[0].reset();
+                    },
+                    error: function (data) {
+                        alert("You have to enter a comment to submit it.");
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $.ajax({
+                url: '/api/chats',
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $.each(data, function (index, element) {
+                        $('#chats').append($('<li class="list-group-item">' + '<strong>' + element.user + '</strong>' + ': ' + element.body + '</li>'));
+                    });
+                },
+                error: function (data) {
+                    alert("An error occurred.");
+                }
+            });
+        });
+    </script>
 }
