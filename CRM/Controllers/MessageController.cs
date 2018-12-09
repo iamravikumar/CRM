@@ -22,7 +22,7 @@ namespace CRM.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Inbox(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
@@ -30,9 +30,23 @@ namespace CRM.Controllers
             Message currentMessage;
 
             if (id != null)
-                currentMessage = await _context.Messages.Include(m => m.Receiver).Where(m => m.ReceiverID == claim.Value).Where(m => m.ParentID == null).FirstOrDefaultAsync(m => m.ID == id);
+                currentMessage = await _context.Messages
+                    .Include(m => m.Messages)
+                    .Include(m => m.Writer)
+                    .Include(m => m.Receiver)
+                    .Where(m => m.ReceiverID == claim.Value || m.WriterID == claim.Value)
+                    .Where(m => m.ParentID == null)
+                    .FirstOrDefaultAsync(m => m.ID == id);
             else
-                currentMessage = await _context.Messages.Include(m => m.Receiver).Where(m => m.ReceiverID == claim.Value).Where(m => m.ParentID == null).OrderByDescending(m => m.CreatedAt).Take(1).FirstOrDefaultAsync();
+                currentMessage = await _context.Messages
+                    .Include(m => m.Messages)
+                    .Include(m => m.Writer)
+                    .Include(m => m.Receiver)
+                    .Where(m => m.ReceiverID == claim.Value || m.WriterID == claim.Value)
+                    .Where(m => m.ParentID == null)
+                    .OrderByDescending(m => m.CreatedAt)
+                    .Take(1)
+                    .FirstOrDefaultAsync();
 
             if (currentMessage == null)
                 return NotFound();
@@ -45,7 +59,7 @@ namespace CRM.Controllers
 
             InboxViewModel inboxModel = new InboxViewModel()
             {
-                Inbox = await _context.Messages.Where(i => i.ReceiverID == claim.Value).Include(i => i.Writer).OrderByDescending(i => i.CreatedAt).ToListAsync(),
+                Inbox = await _context.Messages.Where(i => i.ReceiverID == claim.Value || i.WriterID == claim.Value).Where(i => i.ParentID == null).Include(i => i.Writer).OrderByDescending(i => i.CreatedAt).ToListAsync(),
                 Message = currentMessage
             };
 
@@ -96,7 +110,58 @@ namespace CRM.Controllers
                 ModelState.AddModelError("", e + ": An error occurred.");
             }
 
-            return RedirectToAction(nameof(Inbox));
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Reply(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+            Message message = await _context.Messages.Where(m => m.ReceiverID == claim.Value).Include(m => m.Writer).FirstOrDefaultAsync(m => m.ID == id);
+
+            if (message == null)
+                return NotFound();
+
+            ReplyViewModel replyModel = new ReplyViewModel()
+            {
+                Message = message,
+                Reply = new Message()
+            };
+
+            return View(replyModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Reply(int id, ReplyViewModel replyModel)
+        {
+            if (replyModel.Reply.Body == null)
+                return View(replyModel);
+
+            var message = await _context.Messages.FirstOrDefaultAsync(m => m.ID == id);
+
+            replyModel.Reply.ParentID = message.ID;
+            replyModel.Reply.WriterID = message.ReceiverID;
+            replyModel.Reply.ReceiverID = message.WriterID;
+            replyModel.Reply.Subject = "RE: " + message.Subject;
+            replyModel.Reply.CreatedAt = DateTime.Now;
+            replyModel.Reply.IsViewed = false;
+
+            try
+            {
+                _context.Messages.Add(replyModel.Reply);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e + ": An error occurred.");
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

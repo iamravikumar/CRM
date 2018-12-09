@@ -1,6 +1,6 @@
 ﻿@model CRM.Models.ViewModels.InboxViewModel
 @{
-    ViewData["Title"] = "INBOX";
+    ViewData["Title"] = "MESSAGES";
 }
 
 <div class="row">
@@ -16,9 +16,18 @@
                         <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
                             <div class="d-flex w-100 justify-content-between">
                                 <strong class="mb-1">
-                                    @if (item.Subject.Length > 25)
+                                    @if (User.Identity.Name == item.Receiver.UserName)
                                     {
-                                        @item.Subject.Substring(0, 25) @Html.Raw("...") 
+                                        <span class="text-primary fa fa-chevron-right"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-success fa fa-chevron-left"></span>
+                                    }
+
+                                    @if (item.Subject.Length > 40)
+                                    {
+                                        @item.Subject.Substring(0, 40) @Html.Raw("...")
                                     }
                                     else
                                     {
@@ -32,14 +41,14 @@
                                     </small>
                                 }
                             </div>
-                            <small>From: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
+                            <small>Writer: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
                             <p class="mb-1">
                                 @if (item.Body.Length > 100)
                                 {
-                                    @item.Body.Substring(0, 100) @Html.Raw("...") 
+                                    @item.Body.Substring(0, 100) @Html.Raw("...")
                                 }
                                 else
-                                { 
+                                {
                                     @item.Body
                                 }
                             </p>
@@ -51,13 +60,12 @@
                 Total Message(s): @Model.Inbox.Count()
             </div>
         </div>
-
     </div>
     <div class="col-lg-8">
-        <div class="card mb-5">
+        <div class="card  @if (Model.Message.Messages.Count() > 0) { @Html.Raw("mb-1") } ">
             <div class="card-header">
                 @Model.Message.Subject <br />
-                <small>From: @Model.Message.Writer.FullName() | Created at: @Model.Message.CreatedAt</small>
+                <small>Writer: @Model.Message.Writer.FullName() | Receiver: @Model.Message.Receiver.FullName() | Created at: @Model.Message.CreatedAt</small>
             </div>
             <div class="card-body">
                 @Model.Message.Body
@@ -69,6 +77,21 @@
                 </a>
             </div>
         </div>
+        @if (Model.Message.Messages.Count() > 0)
+        {
+            @foreach (var item in Model.Message.Messages)
+            {
+                <div class="card mb-1">
+                    <div class="card-header">
+                        @item.Subject <br />
+                        <small>Writer: @item.Writer.FullName() | Receiver: @item.Receiver.FullName() | Created at: @item.CreatedAt</small>
+                    </div>
+                    <div class="card-body">
+                        @item.Body
+                    </div>
+                </div>
+            }
+        }
     </div>
 </div>
 

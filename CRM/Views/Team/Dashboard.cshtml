@@ -7,7 +7,7 @@
 
 <partial name="_TeamNavigationPartial" />
 
-<div class="row">
+<div class="row mb-4">
     <div class="col">
         <div class="card">
             <div class="card-body">
@@ -37,6 +37,35 @@
             <div class="card-body">
                 <i class="fa fa-briefcase"></i>
                 Total Firm(s): @TeamService.FirmCounts(Model.TeamID)
+            </div>
+            <div class="card-footer">
+                <i class="fa fa-refresh"></i>
+                Updated Now
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <i class="fa fa-vcard-o"></i>
+                Total Personnel(s): @TeamService.PersonnelCounts(Model.TeamID)
+            </div>
+            <div class="card-footer">
+                <i class="fa fa-refresh"></i>
+                Updated Now
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                TEAM CHAT
+            </div>
+            <div class="card-header text-center">
+                TEAM CHAT
             </div>
             <div class="card-footer">
                 <i class="fa fa-refresh"></i>
