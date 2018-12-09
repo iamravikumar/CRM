@@ -15,7 +15,7 @@
                     {
                         <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
                             <div class="d-flex w-100 justify-content-between">
-                                <strong class="mb-1">
+                                <div class="mb-1">
                                     @if (User.Identity.Name == item.Receiver.UserName)
                                     {
                                         <span class="text-primary fa fa-chevron-right"></span>
@@ -33,7 +33,7 @@
                                     {
                                         @item.Subject
                                     }
-                                </strong>
+                                </div>
                                 @if (item.IsViewed == false)
                                 {
                                     <small>
@@ -43,9 +43,9 @@
                             </div>
                             <small>Writer: @item.Writer.FullName() | Created at: @item.CreatedAt.ToShortDateString()</small>
                             <p class="mb-1">
-                                @if (item.Body.Length > 100)
+                                @if (item.Body.Length > 75)
                                 {
-                                    @item.Body.Substring(0, 100) @Html.Raw("...")
+                                    @item.Body.Substring(0, 75) @Html.Raw("...")
                                 }
                                 else
                                 {

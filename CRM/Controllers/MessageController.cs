@@ -121,7 +121,7 @@ namespace CRM.Controllers
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-            Message message = await _context.Messages.Where(m => m.ReceiverID == claim.Value).Include(m => m.Writer).FirstOrDefaultAsync(m => m.ID == id);
+            Message message = await _context.Messages.Where(m => m.ReceiverID == claim.Value || m.WriterID == claim.Value).FirstOrDefaultAsync(m => m.ID == id);
 
             if (message == null)
                 return NotFound();
@@ -142,14 +142,21 @@ namespace CRM.Controllers
             if (replyModel.Reply.Body == null)
                 return View(replyModel);
 
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
             var message = await _context.Messages.FirstOrDefaultAsync(m => m.ID == id);
 
             replyModel.Reply.ParentID = message.ID;
-            replyModel.Reply.WriterID = message.ReceiverID;
-            replyModel.Reply.ReceiverID = message.WriterID;
+            replyModel.Reply.WriterID = claim.Value;
             replyModel.Reply.Subject = "RE: " + message.Subject;
             replyModel.Reply.CreatedAt = DateTime.Now;
             replyModel.Reply.IsViewed = false;
+
+            if (claim.Value == message.WriterID)
+                replyModel.Reply.ReceiverID = message.ReceiverID;
+            else
+                replyModel.Reply.ReceiverID = message.WriterID;
 
             try
             {
