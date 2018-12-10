@@ -4,47 +4,43 @@
 @{
     ViewData["Title"] = "SCHEDULES";
 }
+
+<partial name="_ScheduleNavigationPartial" />
+
 <div class="row mb-4">
     <div class="col">
         <div class="card">
             <div class="card-header text-center">
-                UNCOMPLETED SCHEDULES
+                COMPLETED SCHEDULES
             </div>
             @if (Model.UnCompletedSchedules.Count() > 0)
             {
-                <div class="card-body p-0">
+                <div style="height: 250px; overflow-y: scroll;" class="card-body p-0">
                     <table class="table table-borderless table-striped">
-                        <thead>
-                            <tr>
-                                <th>Started at</th>
-                                <th>Finished at</th>
-                                <th>User</th>
-                                <th>Personel</th>
-                                <th>Programme</th>
-                                <th></th>
-                            </tr>
-                        </thead>
                         <tbody>
-                            @foreach (var item in Model.UnCompletedSchedules)
+                            @foreach (var item in Model.CompletedSchedules)
                             {
-                                <tr class="@if (item.StartedAt < DateTime.Now) { @Html.Raw("table-danger") }  schedule-@item.ID">
-                                    <td class="align-middle">@item.StartedAt.ToLongDateString() (@item.StartedAt.ToShortTimeString())</td>
-                                    <td class="align-middle">@item.FinishedAt.ToLongDateString() (@item.FinishedAt.ToShortTimeString())</td>
-                                    <td class="align-middle">@item.User.FullName()</td>
-                                    <td class="align-middle">@item.Personnel.FullName()</td>
+                                <tr>
+                                    <td class="align-middle">
+                                        <span class="fa fa-calendar-check-o" data-toggle="tooltip" data-placement="top" title="@item.StartedAt"></span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="fa fa-calendar-times-o" data-toggle="tooltip" data-placement="top" title="@item.FinishedAt"></span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="fa fa-user-o" data-toggle="tooltip" data-placement="top" title="@item.User.FullName()"></span>
+                                    </td>
+                                    <td class="align-middle">
+                                        w/ @item.Personnel.FullName()
+                                    </td>
                                     <td class="align-middle">
                                         <span class="badge" style="background: @item.Programme.Color">@item.Programme.Name</span>
-                                    </td>
-                                    <td class="text-right align-middle">
-                                        <a href="javascript:;" id="@item.ID" class="btn btn-sm btn-outline-primary">
-                                            <span class="fa fa-check"></span>
-                                        </a>
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
- 
+
                 </div>
             }
             else
@@ -55,8 +51,75 @@
                     </div>
                 </div>
             }
-            <div class="card-footer text-center">
-                Total Schedule(s): @Model.UnCompletedSchedules.Count()
+            <div class="card-footer">
+                <div class="row align-items-center">
+                    <div class="col align-middle">
+                        Total Schedule(s): @Model.CompletedSchedules.Count()
+                    </div>
+                    <div class="col text-right">
+                        <a asp-action="" class="btn btn-sm btn-outline-primary">View All Completed Schedules</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                UNCOMPLETED SCHEDULES
+            </div>
+            @if (Model.UnCompletedSchedules.Count() > 0)
+            {
+                <div style="height: 250px; overflow-y: scroll;" class="card-body p-0">
+                    <table class="table table-borderless table-striped">
+                        <tbody>
+                            @foreach (var item in Model.UnCompletedSchedules)
+                            {
+                                <tr class="@if (item.StartedAt < DateTime.Now) { @Html.Raw("table-warning") } schedule-@item.ID">
+                                    <td class="align-middle">
+                                        <span class="fa fa-calendar-check-o" data-toggle="tooltip" data-placement="top" title="@item.StartedAt"></span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="fa fa-calendar-times-o" data-toggle="tooltip" data-placement="top" title="@item.FinishedAt"></span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="fa fa-user-o" data-toggle="tooltip" data-placement="top" title="@item.User.FullName()"></span>
+                                    </td>
+                                    <td class="align-middle">
+                                        w/ @item.Personnel.FullName()
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="badge" style="background: @item.Programme.Color">@item.Programme.Name</span>
+                                    </td>
+                                    <td class="text-right align-middle">
+                                        <a href="javascript:;" id="@item.ID" class="btn btn-schedule btn-sm btn-outline-primary">
+                                            <span class="fa fa-check"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="card-body">
+                    <div class="alert alert-primary" role="alert">
+                        There are no any resources to show here.
+                    </div>
+                </div>
+            }
+            <div class="card-footer">
+                <div class="row align-items-center">
+                    <div class="col align-middle">
+                        Total Schedule(s): @Model.UnCompletedSchedules.Count()
+                    </div>
+                    <div class="col text-right">
+                        <a asp-action="" class="btn btn-sm btn-outline-primary">View All Unompleted Schedules</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -123,7 +186,7 @@
     </script>
 
     <script>
-        $('.btn').click(function () {
+        $('.btn-schedule').click(function () {
             var id = $(this).attr('id');
             $.ajax({
                 url: '/api/schedules/' + id,
@@ -140,5 +203,11 @@
             });
             return false;            
         });
+    </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 }

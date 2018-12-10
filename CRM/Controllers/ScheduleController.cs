@@ -42,7 +42,15 @@ namespace CRM.Controllers
                                             .Include(s => s.Programme)
                                             .OrderBy(s => s.StartedAt)
                                             .ToListAsync(),
-        };
+                CompletedSchedules = await _context.Schedules
+                                            .Where(s => s.TeamID == team.TeamID)
+                                            .Where(s => s.IsDone == true)
+                                            .Include(s => s.User)
+                                            .Include(s => s.Personnel)
+                                            .Include(s => s.Programme)
+                                            .OrderBy(s => s.StartedAt)
+                                            .ToListAsync()
+            };
 
             return View(listModel);
         }
