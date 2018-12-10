@@ -71,7 +71,7 @@
             </div>
             <div class="card-footer">
                 <form id="form" asp-antiforgery="true">
-                    <div class="form-group row no-gutters">
+                    <div class="form-group row no-gutters m-0">
                         <div class="col-lg-10 pr-1">
                             <input id="body" class="form-control" autocomplete="off" />
                             <input id="user" hidden value="@Model.User.FullName()" />
@@ -103,6 +103,7 @@
         $(function () {
             var form = $('#form');
             var user = $('#user').val();
+            $("#chats").stop().animate({ scrollTop: $("#chats")[0].scrollHeight }, 500);
             form.submit(function () {
                 var chat = { Body: $('#body').val() };
                 var json = JSON.stringify(chat);
@@ -116,9 +117,10 @@
                     success: function (data) {
                         $("#chats").append($('<li class="list-group-item">' + '<strong>' + user + '</strong>: ' + chat.Body + '</li>'));
                         $("#form")[0].reset();
+                        $("#chats").stop().animate({ scrollTop: $("#chats")[0].scrollHeight }, 500);
                     },
                     error: function (data) {
-                        alert("You have to enter a comment to submit it.");
+                        alert("An error occurred.");
                     }
                 });
                 return false;

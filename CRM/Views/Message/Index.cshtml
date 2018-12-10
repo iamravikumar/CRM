@@ -15,7 +15,7 @@
                     <div class="list-group">
                         @foreach (var item in Model.Inbox)
                         {
-                            <a asp-route-id="@item.ID" class="list-group-item list-group-item-action list-group-item-light @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
+                            <a asp-route-id="@item.ID" class="list-group-item list-group-item-action @if (item.ID == Model.Message.ID) { @Html.Raw("active") }">
                                 <div class="d-flex w-100 justify-content-between">
                                     <div class="mb-1">
                                         @if (User.Identity.Name == item.Receiver.UserName)

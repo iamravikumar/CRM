@@ -29,11 +29,22 @@ namespace CRM.Controllers
         {
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            ScheduleListViewModel listModel = new ScheduleListViewModel()
+            {
+                Member = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value),
+                UnCompletedSchedules = await _context.Schedules
+                                            .Where(s => s.TeamID == team.TeamID)
+                                            .Where(s => s.IsDone == false)
+                                            .Include(s => s.User)
+                                            .Include(s => s.Personnel)
+                                            .Include(s => s.Programme)
+                                            .OrderBy(s => s.StartedAt)
+                                            .ToListAsync(),
+        };
 
-            return View(team);
+            return View(listModel);
         }
 
         public async Task<IActionResult> Create(int? id)
@@ -76,6 +87,7 @@ namespace CRM.Controllers
             var user = await _context.ApplicationUsers.FindAsync(claim.Value);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
 
+            Model.Schedule.UserID = claim.Value;
             Model.Schedule.PersonnelID = personnel.ID;
             Model.Schedule.TeamID = team.TeamID;
             Model.Schedule.CreatedAt = DateTime.Now;

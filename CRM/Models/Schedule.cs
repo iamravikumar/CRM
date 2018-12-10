@@ -15,6 +15,9 @@ namespace CRM.Models
         [Display(Name = "Personnel")]
         public int? PersonnelID { get; set; }
 
+        [Display(Name = "User")]
+        public string UserID { get; set; }
+
         [Display(Name = "Team")]
         public int? TeamID { get; set; }
 
@@ -27,8 +30,14 @@ namespace CRM.Models
         [Display(Name = "Finished At")]
         public DateTime FinishedAt { get; set; }
 
+        [Display(Name = "Done")]
+        public bool IsDone { get; set; }
+
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
+
+        [ForeignKey("UserID")]
+        public virtual ApplicationUser User { get; set; }
 
         [ForeignKey("PersonnelID")]
         public virtual Personnel Personnel { get; set; }

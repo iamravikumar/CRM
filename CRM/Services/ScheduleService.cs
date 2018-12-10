@@ -17,7 +17,7 @@ namespace CRM.Services
 
         public int DailyScheduleCounts(int id)
         {
-            return _context.Schedules.Where(t => t.TeamID == id).Where(t => t.StartedAt.Date == DateTime.Today).ToList().Count();
+            return _context.Schedules.Where(t => t.TeamID == id).Where(t => t.StartedAt.Date == DateTime.Today.Date).ToList().Count();
         }
     }
 }
