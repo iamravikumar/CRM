@@ -31,10 +31,10 @@ namespace CRM.Controllers
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
-            ScheduleListViewModel listModel = new ScheduleListViewModel()
+            ScheduleDashboardViewModel scheduleModel = new ScheduleDashboardViewModel()
             {
                 Member = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value),
-                UnCompletedSchedules = await _context.Schedules
+                UpcomingSchedules = await _context.Schedules
                                             .Where(s => s.TeamID == team.TeamID)
                                             .Where(s => s.IsDone == false)
                                             .Include(s => s.User)
@@ -42,7 +42,7 @@ namespace CRM.Controllers
                                             .Include(s => s.Programme)
                                             .OrderBy(s => s.StartedAt)
                                             .ToListAsync(),
-                CompletedSchedules = await _context.Schedules
+                ScheduleHistories = await _context.Schedules
                                             .Where(s => s.TeamID == team.TeamID)
                                             .Where(s => s.IsDone == true)
                                             .Include(s => s.User)
@@ -52,7 +52,7 @@ namespace CRM.Controllers
                                             .ToListAsync()
             };
 
-            return View(listModel);
+            return View(scheduleModel);
         }
 
         public async Task<IActionResult> Create(int? id)
@@ -67,9 +67,7 @@ namespace CRM.Controllers
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
             Model = new ScheduleViewModel()
             {
@@ -91,9 +89,7 @@ namespace CRM.Controllers
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
             Model.Schedule.UserID = claim.Value;
             Model.Schedule.PersonnelID = personnel.ID;
@@ -117,9 +113,7 @@ namespace CRM.Controllers
         {
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
             Model = new ScheduleViewModel()
             {
@@ -161,6 +155,91 @@ namespace CRM.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            Schedule sector = await _context.Schedules.Include(s => s.Personnel).Include(s => s.User).FirstOrDefaultAsync(s=> s.ID == id);
+
+            if (sector == null)
+                return NotFound();
+
+            return View(sector);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Schedule schedule = await _context.Schedules.FindAsync(id);
+
+            try
+            {
+                _context.Schedules.Remove(schedule);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e + ": An error occurred.");
+            }
+
+            return RedirectToAction(nameof(All));
+        }
+
+        public async Task<IActionResult> All()
+        {
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
+
+            var schedules = await _context.Schedules
+                        .Where(s => s.TeamID == team.TeamID)
+                        .Include(s => s.User)
+                        .Include(s => s.Personnel)
+                        .Include(s => s.Programme)
+                        .OrderByDescending(s => s.StartedAt)
+                        .ToListAsync();
+
+            return View(schedules);
+        }
+
+        public async Task<IActionResult> Upcoming()
+        {
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
+
+            var schedules = await _context.Schedules
+                        .Where(s => s.TeamID == team.TeamID)
+                        .Where(s => s.IsDone == false)
+                        .Include(s => s.User)
+                        .Include(s => s.Personnel)
+                        .Include(s => s.Programme)
+                        .OrderByDescending(s => s.StartedAt)
+                        .ToListAsync();
+
+            return View(schedules);
+        }
+
+        public async Task<IActionResult> History()
+        {
+            var identity = (ClaimsIdentity)this.User.Identity;
+            var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
+
+            var schedules = await _context.Schedules
+                        .Where(s => s.TeamID == team.TeamID)
+                        .Where(s => s.IsDone == true)
+                        .Include(s => s.User)
+                        .Include(s => s.Personnel)
+                        .Include(s => s.Programme)
+                        .OrderByDescending(s => s.StartedAt)
+                        .ToListAsync();
+
+            return View(schedules);
         }
     }
 }

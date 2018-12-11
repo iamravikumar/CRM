@@ -47,9 +47,7 @@ namespace CRM.Controllers
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
             sector.CreatedAt = DateTime.Now;
             sector.TeamID = team.TeamID;

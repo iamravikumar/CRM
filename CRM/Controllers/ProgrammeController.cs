@@ -25,9 +25,7 @@ namespace CRM.Controllers
         {
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
             var programmes = await _context.Programmes.Where(s => s.TeamID == team.TeamID).ToListAsync();
 
             return View(programmes);
@@ -47,9 +45,7 @@ namespace CRM.Controllers
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var user = await _context.ApplicationUsers.FindAsync(claim.Value);
-            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == user.Id);
+            var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
             programme.CreatedAt = DateTime.Now;
             programme.TeamID = team.TeamID;

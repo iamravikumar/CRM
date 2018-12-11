@@ -1,4 +1,4 @@
-﻿@model CRM.Models.ViewModels.ScheduleListViewModel
+﻿@model CRM.Models.ViewModels.ScheduleDashboardViewModel
 @using CRM.Services
 @inject ScheduleService ScheduleService
 @{
@@ -11,14 +11,14 @@
     <div class="col">
         <div class="card">
             <div class="card-header text-center">
-                COMPLETED SCHEDULES
+                SCHEDULE HISTORIES
             </div>
-            @if (Model.UnCompletedSchedules.Count() > 0)
+            @if (Model.ScheduleHistories.Count() > 0)
             {
                 <div style="height: 250px; overflow-y: scroll;" class="card-body p-0">
                     <table class="table table-borderless table-striped">
                         <tbody>
-                            @foreach (var item in Model.CompletedSchedules)
+                            @foreach (var item in Model.ScheduleHistories)
                             {
                                 <tr>
                                     <td class="align-middle">
@@ -35,6 +35,9 @@
                                     </td>
                                     <td class="align-middle">
                                         <span class="badge" style="background: @item.Programme.Color">@item.Programme.Name</span>
+                                    </td>
+                                    <td class="align-middle text-right">
+                                        <span class="badge badge-primary">Completed</span>
                                     </td>
                                 </tr>
                             }
@@ -54,10 +57,12 @@
             <div class="card-footer">
                 <div class="row align-items-center">
                     <div class="col align-middle">
-                        Total Schedule(s): @Model.CompletedSchedules.Count()
+                        Total Schedule(s): @Model.ScheduleHistories.Count()
                     </div>
                     <div class="col text-right">
-                        <a asp-action="" class="btn btn-sm btn-outline-primary">View All Completed Schedules</a>
+                        <a asp-action="" class="btn btn-sm btn-outline-primary">
+                            View More
+                        </a>
                     </div>
                 </div>
             </div>
@@ -66,14 +71,14 @@
     <div class="col">
         <div class="card">
             <div class="card-header text-center">
-                UNCOMPLETED SCHEDULES
+                UPCOMING SCHEDULES
             </div>
-            @if (Model.UnCompletedSchedules.Count() > 0)
+            @if (Model.UpcomingSchedules.Count() > 0)
             {
                 <div style="height: 250px; overflow-y: scroll;" class="card-body p-0">
                     <table class="table table-borderless table-striped">
                         <tbody>
-                            @foreach (var item in Model.UnCompletedSchedules)
+                            @foreach (var item in Model.UpcomingSchedules)
                             {
                                 <tr class="@if (item.StartedAt < DateTime.Now) { @Html.Raw("table-warning") } schedule-@item.ID">
                                     <td class="align-middle">
@@ -92,9 +97,16 @@
                                         <span class="badge" style="background: @item.Programme.Color">@item.Programme.Name</span>
                                     </td>
                                     <td class="text-right align-middle">
-                                        <a href="javascript:;" id="@item.ID" class="btn btn-schedule btn-sm btn-outline-primary">
-                                            <span class="fa fa-check"></span>
-                                        </a>
+                                        @if (item.StartedAt < DateTime.Now)
+                                        {
+                                            <a href="javascript:;" id="@item.ID" class="btn btn-schedule btn-sm btn-outline-primary">
+                                                <span class="fa fa-check"></span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-primary">Upcoming</span>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -114,10 +126,12 @@
             <div class="card-footer">
                 <div class="row align-items-center">
                     <div class="col align-middle">
-                        Total Schedule(s): @Model.UnCompletedSchedules.Count()
+                        Total Schedule(s): @Model.UpcomingSchedules.Count()
                     </div>
                     <div class="col text-right">
-                        <a asp-action="" class="btn btn-sm btn-outline-primary">View All Unompleted Schedules</a>
+                        <a asp-action="" class="btn btn-sm btn-outline-primary">
+                            View More
+                        </a>
                     </div>
                 </div>
             </div>
