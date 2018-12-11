@@ -60,7 +60,7 @@
                         Total Schedule(s): @Model.ScheduleHistories.Count()
                     </div>
                     <div class="col text-right">
-                        <a asp-action="" class="btn btn-sm btn-outline-primary">
+                        <a asp-action="History" class="btn btn-sm btn-outline-primary">
                             View More
                         </a>
                     </div>
@@ -129,7 +129,7 @@
                         Total Schedule(s): @Model.UpcomingSchedules.Count()
                     </div>
                     <div class="col text-right">
-                        <a asp-action="" class="btn btn-sm btn-outline-primary">
+                        <a asp-action="Upcoming" class="btn btn-sm btn-outline-primary">
                             View More
                         </a>
                     </div>
@@ -188,7 +188,7 @@
                 firstDay: 1,
                 allDaySlot: false,
                 events: 'api/schedules',
-                contentHeight: 350,
+                contentHeight: 450,
             });
 
             var $leftButtons = $('.fc-left .fc-button-group button').removeClass();

@@ -12,11 +12,11 @@ using Microsoft.EntityFrameworkCore;
 namespace CRM.Controllers
 {
     [Authorize(Roles = "Officer")]
-    public class SectorController : Controller
+    public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SectorController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -26,9 +26,9 @@ namespace CRM.Controllers
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
-            var sectors = await _context.Sectors.Where(s => s.TeamID == team.TeamID).ToListAsync();
+            var products = await _context.Products.Where(s => s.TeamID == team.TeamID).ToListAsync();
 
-            return View(sectors);
+            return View(products);
         }
 
         public IActionResult Create()
@@ -38,21 +38,21 @@ namespace CRM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Sector sector)
+        public async Task<IActionResult> Create(Product product)
         {
             if (!ModelState.IsValid)
-                return View(sector);
+                return View(product);
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
-            sector.CreatedAt = DateTime.Now;
-            sector.TeamID = team.TeamID;
+            product.CreatedAt = DateTime.Now;
+            product.TeamID = team.TeamID;
 
             try
             {
-                _context.Sectors.Add(sector);
+                _context.Products.Add(product);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
@@ -68,27 +68,27 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Sector sector = await _context.Sectors.FindAsync(id);
+            Product product = await _context.Products.FindAsync(id);
 
-            if (sector == null)
+            if (product == null)
                 return NotFound();
 
-            return View(sector);
+            return View(product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Sector sector)
+        public async Task<IActionResult> Edit(int id, Product product)
         {
-            if (id != sector.ID)
+            if (id != product.ID)
                 return NotFound();
 
-            var existingSector = await _context.Sectors.FindAsync(id);
+            var existingProduct = await _context.Products.FindAsync(id);
 
             try
             {
-                existingSector.Name = sector.Name;
-                existingSector.IsActive = sector.IsActive;
+                existingProduct.Name = product.Name;
+                existingProduct.IsActive = product.IsActive;
 
                 await _context.SaveChangesAsync();
             }
@@ -105,23 +105,23 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Sector sector = await _context.Sectors.FindAsync(id);
+            Product product = await _context.Products.FindAsync(id);
 
-            if (sector == null)
+            if (product == null)
                 return NotFound();
 
-            return View(sector);
+            return View(product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Sector sector = await _context.Sectors.FindAsync(id);
+            Product product = await _context.Products.FindAsync(id);
 
             try
             {
-                _context.Sectors.Remove(sector);
+                _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
