@@ -1,0 +1,122 @@
+﻿@model CRM.Models.Service
+@{
+    ViewData["Title"] = "DETAILS";
+    int counter = 1;
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" asp-for="Product"></label>
+                    <div class="col-md-9">
+                        <input disabled asp-for="Product.Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" asp-for="PaymentOptionID"></label>
+                    <div class="col-md-9">
+                        <input disabled asp-for="PaymentOption.Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" asp-for="Total"></label>
+                    <div class="col-md-9">
+                        <input disabled value="@string.Format("{0:C}", Model.Total)" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" asp-for="PersonnelID"></label>
+                    <div class="col-md-9">
+                        <input disabled value="@Model.Personnel.FullName()" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label">Firm</label>
+                    <div class="col-md-9">
+                        <input disabled value="@Model.Personnel.Firm.Name" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-angle-left"></i>
+                    Back to Payment List
+                </a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-refresh"></i>
+                    Go to Update
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                PAYMENTS
+            </div>
+            @if (Model.Payments.Count() > 0)
+            {
+                <div class="p-0 card-body">
+                    <table style="border: none" class="table table-hover table-striped table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Payment On</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Remaining Amount</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Payments)
+                            {
+                                <tr>
+                                    <td class="align-middle">@Html.Raw(counter)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.PaymentOn)</td>
+                                    <td class="align-middle">@string.Format("{0:C}", item.Amount)</td>
+                                    <td class="align-middle">@string.Format("{0:C}", item.RemainingAmount)</td>
+                                    <td class="align-middle text-center">
+                                        @if (item.IsDone == true)
+                                        {
+                                            <span class="badge badge-primary">Paid</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">Unpaid</span>
+                                        }
+                                    </td>
+                                    <td class="text-right align-middle">
+                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary">
+                                            <span class="fa fa-check"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="card-body">
+                    <div class="alert alert-primary" role="alert">
+                        There are no any resources to show here.
+                    </div>
+                </div>
+            }
+            <div class="card-footer text-center">
+                Total Payment(s): @Model.Payments.Count()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}

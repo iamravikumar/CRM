@@ -25,10 +25,16 @@
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Firm" ? "active" : "")" asp-action="Index" asp-controller="Firm">Firms</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Service" ? "active" : "")" asp-action="Index" asp-controller="Service">Services</a>
+            </li>
         }
 
         @if (User.IsInRole("Officer"))
         {
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "PaymentOption" ? "active" : "")" asp-action="Index" asp-controller="PaymentOption">Payment Options</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Product" ? "active" : "")" asp-action="Index" asp-controller="Product">Products</a>
             </li>

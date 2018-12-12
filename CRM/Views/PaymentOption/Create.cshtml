@@ -1,6 +1,6 @@
-﻿@model CRM.Models.Product
+﻿@model CRM.Models.PaymentOption
 @{
-    ViewData["Title"] = "CREATE A NEW PRODUCT";
+    ViewData["Title"] = "CREATE A NEW PAYMENT OPTION";
 }
 
 <div class="row">
@@ -15,13 +15,19 @@
                         <input placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
                         <span class="text-danger" asp-validation-for="Name"></span>
                     </div>
-                    <div class="form-group">
-                        <input placeholder="Name" class="form-control" asp-for="Price" autocomplete="off">
-                        <span class="text-danger" asp-validation-for="Price"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <input asp-for="IsActive" type="checkbox" class="form-check-input">
-                        <label class="form-check-label" asp-for="IsActive"></label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Ratio" class="form-control" asp-for="Ratio" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Ratio"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input placeholder="Ratio" class="form-control" asp-for="Times" autocomplete="off">
+                                <span class="text-danger" asp-validation-for="Times"></span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

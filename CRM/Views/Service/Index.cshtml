@@ -1,17 +1,11 @@
-﻿@model IEnumerable<CRM.Models.Product>
+﻿@model IEnumerable<CRM.Models.Service>
 @{
-    ViewData["Title"] = "PRODUCTS";
+    ViewData["Title"] = "SERVICES";
     int counter = 1;
 }
 
-<div class="row">
+<div class="row mb-5">
     <div class="col-lg-12">
-        <div class="mb-3 text-right">
-            <a asp-action="Create" class="btn btn-primary">
-                <i class="fa fa-plus-circle"></i>
-                Create a New Product
-            </a>
-        </div>
         <div class="card">
             <div class="card-header text-center">
                 @ViewData["Title"]
@@ -23,11 +17,12 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">@Html.DisplayNameFor(m => m.Name)</th>
-                                <th scope="col">@Html.DisplayNameFor(m => m.Price)</th>
-                                <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.IsActive)</th>
-                                <th scope="col" class="text-center">Usage Status</th>
-                                <th scope="col">@Html.DisplayNameFor(m => m.CreatedAt)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.ProductID)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.Total)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.PaymentOptionID)</th>
+                                <th scope="col">@Html.DisplayNameFor(m => m.PersonnelID)</th>
+                                <th scope="col">Firm</th>
+                                <th scope="col" class="text-center">@Html.DisplayNameFor(m => m.CreatedAt)</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -36,23 +31,18 @@
                             {
                                 <tr>
                                     <td class="align-middle">@Html.Raw(counter)</td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.Name)</td>
-                                    <td class="align-middle">@string.Format("{0:C}", item.Price)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.Product.Name)</td>
+                                    <td class="align-middle">@string.Format("{0:C}", item.Total)</td>
+                                    <td class="align-middle">@Html.DisplayFor(m => item.PaymentOption.Name)</td>
+                                    <td class="align-middle">@item.Personnel.FullName()</td>
+                                    <td class="align-middle">@item.Personnel.Firm.Name</td>
                                     <td class="align-middle text-center">
-                                        @if (item.IsActive == true)
-                                        {
-                                            <span class="badge badge-primary">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-danger">Inactive</span>
-                                        }
+                                        <i class="fa fa-clock-o" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(m => item.CreatedAt)"></i>
                                     </td>
-                                    <td class="align-middle text-center">
-                                        <span class="badge badge-warning">Used</span>
-                                    </td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">
+                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-dark">
+                                            <span class="fa fa-eye"></span>
+                                        </a>
                                         <partial name="_DefaultActionButtonsPartial" model="@item.ID" />
                                     </td>
                                 </tr>
@@ -71,7 +61,7 @@
                 </div>
             }
             <div class="card-footer text-center">
-                Total Product(s): @Model.Count()
+                Total Service(s): @Model.Count()
             </div>
         </div>
     </div>
@@ -79,4 +69,12 @@
 
 @section Styles {
     <partial name="_StylesPartial" />
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 }

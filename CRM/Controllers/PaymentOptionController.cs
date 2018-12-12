@@ -12,11 +12,11 @@ using Microsoft.EntityFrameworkCore;
 namespace CRM.Controllers
 {
     [Authorize(Roles = "Officer")]
-    public class ProductController : Controller
+    public class PaymentOptionController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductController(ApplicationDbContext context)
+        public PaymentOptionController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -26,9 +26,9 @@ namespace CRM.Controllers
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
-            var products = await _context.Products.Where(s => s.TeamID == team.TeamID).ToListAsync();
+            var options = await _context.PaymentOptions.Where(s => s.TeamID == team.TeamID).ToListAsync();
 
-            return View(products);
+            return View(options);
         }
 
         public IActionResult Create()
@@ -38,21 +38,21 @@ namespace CRM.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(PaymentOption option)
         {
             if (!ModelState.IsValid)
-                return View(product);
+                return View(option);
 
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
 
-            product.CreatedAt = DateTime.Now;
-            product.TeamID = team.TeamID;
+            option.CreatedAt = DateTime.Now;
+            option.TeamID = team.TeamID;
 
             try
             {
-                _context.Products.Add(product);
+                _context.PaymentOptions.Add(option);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
@@ -68,28 +68,27 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Product product = await _context.Products.FindAsync(id);
+            PaymentOption option = await _context.PaymentOptions.FindAsync(id);
 
-            if (product == null)
+            if (option == null)
                 return NotFound();
 
-            return View(product);
+            return View(option);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product)
+        public async Task<IActionResult> Edit(int id, PaymentOption option)
         {
-            if (id != product.ID)
+            if (id != option.ID)
                 return NotFound();
 
-            var existingProduct = await _context.Products.FindAsync(id);
+            var existingOption = await _context.PaymentOptions.FindAsync(id);
 
             try
             {
-                existingProduct.Name = product.Name;
-                existingProduct.Price = product.Price;
-                existingProduct.IsActive = product.IsActive;
+                existingOption.Name = option.Name;
+                existingOption.Ratio = option.Ratio;
 
                 await _context.SaveChangesAsync();
             }
@@ -106,23 +105,23 @@ namespace CRM.Controllers
             if (id == null)
                 return NotFound();
 
-            Product product = await _context.Products.FindAsync(id);
+            PaymentOption option = await _context.PaymentOptions.FindAsync(id);
 
-            if (product == null)
+            if (option == null)
                 return NotFound();
 
-            return View(product);
+            return View(option);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Product product = await _context.Products.FindAsync(id);
+            PaymentOption option = await _context.PaymentOptions.FindAsync(id);
 
             try
             {
-                _context.Products.Remove(product);
+                _context.PaymentOptions.Remove(option);
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)

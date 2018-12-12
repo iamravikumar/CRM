@@ -109,9 +109,13 @@
                         </a>
                     </div>
                     <div class="col text-right">
+                        <a asp-action="Create" asp-route-id="@Model.ID" asp-controller="Service" class="btn btn-primary">
+                            <i class="fa fa-gift" aria-hidden="true"></i>
+                            Prodive a Service
+                        </a>
                         <a asp-action="Create" asp-route-id="@Model.ID" asp-controller="Schedule" class="btn btn-primary">
                             <i class="fa fa-calendar-check-o"></i>
-                            Set a Schedule with @Model.FullName()
+                            Set a Schedule
                         </a>
                     </div>
                 </div>

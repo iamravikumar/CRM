@@ -26,5 +26,8 @@ namespace CRM.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<TeamChat> TeamChats { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentOption> PaymentOptions { get; set; }
     }
 }

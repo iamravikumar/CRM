@@ -4,14 +4,16 @@ using CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181212093347_AddPriceToProducts")]
+    partial class AddPriceToProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,59 +105,6 @@ namespace CRM.Migrations
                     b.HasIndex("WriterID");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("CRM.Models.Payment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Amount");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<bool>("IsDone");
-
-                    b.Property<DateTime>("PaymentOn");
-
-                    b.Property<decimal>("RemainingAmount");
-
-                    b.Property<int>("ServiceID");
-
-                    b.Property<int?>("TeamID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ServiceID");
-
-                    b.HasIndex("TeamID");
-
-                    b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("CRM.Models.PaymentOption", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<decimal>("Ratio");
-
-                    b.Property<int>("TeamID");
-
-                    b.Property<int>("Times");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TeamID");
-
-                    b.ToTable("PaymentOptions");
                 });
 
             modelBuilder.Entity("CRM.Models.Personnel", b =>
@@ -309,37 +258,6 @@ namespace CRM.Migrations
                     b.HasIndex("TeamID");
 
                     b.ToTable("Sectors");
-                });
-
-            modelBuilder.Entity("CRM.Models.Service", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<int>("PaymentOptionID");
-
-                    b.Property<int?>("PersonnelID");
-
-                    b.Property<int?>("ProductID");
-
-                    b.Property<int?>("TeamID");
-
-                    b.Property<decimal>("Total");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("PaymentOptionID");
-
-                    b.HasIndex("PersonnelID");
-
-                    b.HasIndex("ProductID");
-
-                    b.HasIndex("TeamID");
-
-                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("CRM.Models.Team", b =>
@@ -615,26 +533,6 @@ namespace CRM.Migrations
                         .HasForeignKey("WriterID");
                 });
 
-            modelBuilder.Entity("CRM.Models.Payment", b =>
-                {
-                    b.HasOne("CRM.Models.Service", "Service")
-                        .WithMany("Payments")
-                        .HasForeignKey("ServiceID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CRM.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamID");
-                });
-
-            modelBuilder.Entity("CRM.Models.PaymentOption", b =>
-                {
-                    b.HasOne("CRM.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("CRM.Models.Personnel", b =>
                 {
                     b.HasOne("CRM.Models.Firm", "Firm")
@@ -689,26 +587,6 @@ namespace CRM.Migrations
                         .WithMany()
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CRM.Models.Service", b =>
-                {
-                    b.HasOne("CRM.Models.PaymentOption", "PaymentOption")
-                        .WithMany()
-                        .HasForeignKey("PaymentOptionID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CRM.Models.Personnel", "Personnel")
-                        .WithMany()
-                        .HasForeignKey("PersonnelID");
-
-                    b.HasOne("CRM.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID");
-
-                    b.HasOne("CRM.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamID");
                 });
 
             modelBuilder.Entity("CRM.Models.TeamChat", b =>

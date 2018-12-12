@@ -18,6 +18,14 @@
     <Compile Remove="Migrations\20181207143935_CreateMessages.Designer.cs" />
     <Compile Remove="Migrations\20181208125629_AddParentAttributeToMessages.cs" />
     <Compile Remove="Migrations\20181208125629_AddParentAttributeToMessages.Designer.cs" />
+    <Compile Remove="Migrations\20181212103513_CreateServicesPaymentsAndPaymentOptions.cs" />
+    <Compile Remove="Migrations\20181212103513_CreateServicesPaymentsAndPaymentOptions.Designer.cs" />
+    <Compile Remove="Migrations\20181212103617_CreateServicesPaymentsAndPaymentOptions.cs" />
+    <Compile Remove="Migrations\20181212103617_CreateServicesPaymentsAndPaymentOptions.Designer.cs" />
+    <Compile Remove="Migrations\20181212103708_CreateServicesPaymentsAndPaymentOptions.cs" />
+    <Compile Remove="Migrations\20181212103708_CreateServicesPaymentsAndPaymentOptions.Designer.cs" />
+    <Compile Remove="Migrations\20181212105736_AddAttributeToOptions.cs" />
+    <Compile Remove="Migrations\20181212105736_AddAttributeToOptions.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Payment\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

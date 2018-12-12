@@ -21,7 +21,7 @@ namespace CRM.Models
         [Display(Name = "Active")]
         public bool IsActive { get; set; }
 
-        [Display(Name = "Active")]
+        [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
         [ForeignKey("TeamID")]

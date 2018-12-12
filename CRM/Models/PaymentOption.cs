@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CRM.Models
 {
-    public class Product
+    public class PaymentOption
     {
         [Key]
         public int ID { get; set; }
@@ -19,10 +19,9 @@ namespace CRM.Models
         public string Name { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public decimal Ratio { get; set; }
 
-        [Display(Name = "Active")]
-        public bool IsActive { get; set; }
+        public int Times { get; set; }
 
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }

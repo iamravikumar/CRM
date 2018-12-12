@@ -1,6 +1,6 @@
-﻿@model CRM.Models.Product
+﻿@model CRM.Models.ViewModels.ServiceViewModel
 @{
-    ViewData["Title"] = "CREATE A NEW PRODUCT";
+    ViewData["Title"] = "CREATE A NEW SERVICE";
 }
 
 <div class="row">
@@ -12,16 +12,12 @@
             <div class="card-body">
                 <form id="form" method="post" asp-action="Create" asp-antiforgery="true">
                     <div class="form-group">
-                        <input placeholder="Name" class="form-control" asp-for="Name" autocomplete="off">
-                        <span class="text-danger" asp-validation-for="Name"></span>
+                        <select asp-for="Service.ProductID" class="form-control" asp-items="@(new SelectList(Model.Products, "ID", "Name"))"></select>
+                        <span asp-validation-for="Service.ProductID" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input placeholder="Name" class="form-control" asp-for="Price" autocomplete="off">
-                        <span class="text-danger" asp-validation-for="Price"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <input asp-for="IsActive" type="checkbox" class="form-check-input">
-                        <label class="form-check-label" asp-for="IsActive"></label>
+                        <select asp-for="Service.PaymentOptionID" class="form-control" asp-items="@(new SelectList(Model.Options, "ID", "Name"))"></select>
+                        <span asp-validation-for="Service.PaymentOptionID" class="text-danger"></span>
                     </div>
                 </form>
             </div>
