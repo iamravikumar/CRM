@@ -53,8 +53,13 @@ namespace CRM.Controllers.API
         {
             var schedule = _context.Schedules.Find(id);
 
-            schedule.IsDone = true;
-            _context.SaveChanges();
+            try
+            {
+                schedule.IsDone = true;
+                _context.SaveChanges();
+            }
+            catch (Exception e){
+            }
 
             return Ok();
         }

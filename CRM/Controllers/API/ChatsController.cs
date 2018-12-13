@@ -60,8 +60,14 @@ namespace CRM.Controllers.API
             chat.TeamID = team.TeamID;
             chat.CreatedAt = DateTime.Now;
 
-            _context.TeamChats.Add(chat);
-            _context.SaveChanges();
+            try
+            {
+                _context.TeamChats.Add(chat);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+            }
 
             return Ok();
         }

@@ -83,24 +83,28 @@
                                     <td class="align-middle text-center">
                                         @if (item.IsDone == true)
                                         {
-                                            <span class="badge badge-primary paid-@item.ID">Paid</span>
+                                            <span class="badge badge-primary">Paid</span>
                                         }
                                         else
                                         {
                                             <span class="badge badge-warning unpaid-@item.ID">Unpaid</span>
+                                            <span style="display: none" class="badge badge-primary paid-@item.ID">Paid</span>
                                         }
                                     </td>
                                     <td class="text-right align-middle">
                                         @if (item.IsDone == false)
                                         {
                                             <a id="@item.ID" href="javascript:;" class="btn btn-payment btn-sm btn-outline-primary btn-@item.ID">
-                                                <span class="fa fa-credit-card icon-@item.ID"></span>
+                                                <span class="fa fa-check"></span>
+                                            </a>
+                                            <a style="display: none" href="" class="btn btn-sm btn-outline-dark print-@item.ID">
+                                                <span class="fa fa-file-pdf-o"></span>
                                             </a>
                                         }
                                         else
                                         {
-                                            <a id="@item.ID" href="javascript:;" class="btn btn-payment btn-sm btn-outline-danger btn-@item.ID">
-                                                <span class="fa fa-credit-card icon-@item.ID"></span>
+                                            <a href="" class="btn btn-sm btn-outline-dark">
+                                                <span class="fa fa-file-pdf-o"></span>
                                             </a>
                                         }
                                     </td>
@@ -128,6 +132,7 @@
 
 @section Styles {
     <partial name="_StylesPartial" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 }
 
 
@@ -142,9 +147,17 @@
                 dataType: 'text',
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {
-                    $('.payment-' + id).toggleClass("table-success");
-                    $(".unpaid-" + id).toggle();
-                    $(".paid-" + id).toggle();
+                    $('.btn-' + id).hide();
+                    $('.print-' + id).show();
+                    $('.paid-' + id).show();
+                    $('.unpaid-' + id).hide();
+                    $('.payment-' + id).addClass("table-success");
+                    swal({
+                        icon: "success",
+                        text: "The payment has been confirmed.",
+                        button: false,
+                        timer: 1500,
+                    });
                 },
                 error: function (data) {
                     alert("An error occurred.");

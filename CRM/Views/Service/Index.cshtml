@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CRM.Models.Service>
+@using CRM.Services
+@inject PaymentService PaymentService
 @{
     ViewData["Title"] = "SERVICES";
     int counter = 1;
@@ -29,7 +31,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr class="@if (PaymentService.IsPaid(item.ID) == true) { @Html.Raw("table-success") }">
                                     <td class="align-middle">@Html.Raw(counter)</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.Product.Name)</td>
                                     <td class="align-middle">@string.Format("{0:C}", item.Total)</td>

@@ -35,6 +35,7 @@ namespace CRM
             services.AddTransient<ScheduleService>();
             services.AddTransient<ProgrammeService>();
             services.AddTransient<ProductService>();
+            services.AddTransient<PaymentService>();
 
             services.ConfigureApplicationCookie(options =>
             {

@@ -28,11 +28,7 @@ namespace CRM.Controllers.API
 
             try
             {
-                if (payment.IsDone == true)
-                    payment.IsDone = false;
-                else
-                    payment.IsDone = true;
-
+                payment.IsDone = true;
                 payment.UpdatedAt = DateTime.Now;
                 _context.SaveChanges();
             }
