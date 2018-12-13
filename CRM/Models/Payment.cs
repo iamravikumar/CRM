@@ -23,10 +23,13 @@ namespace CRM.Models
         [Display(Name = "Remaining Amount")]
         public decimal RemainingAmount { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime PaymentOn { get; set; }
+        [Display(Name = "Payment Day")]
+        public DateTime PaymentDay { get; set; }
 
         public bool IsDone { get; set; }
+
+        [Display(Name = "Updated At")]
+        public DateTime UpdatedAt { get; set; }
 
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }

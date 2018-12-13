@@ -86,30 +86,38 @@ namespace CRM.Controllers
             Model.Service.Total = total;
             Model.Service.CreatedAt = DateTime.Now;
 
-            _context.Services.Add(Model.Service);
-
-            int dayCounter = 0;
-            decimal remainingAmount = Model.Service.Total;
-
-            for (int i = 0; i < option.Times; i++)
+            try
             {
-                Payment payment = new Payment()
+                _context.Services.Add(Model.Service);
+
+                int dayCounter = 0;
+                decimal remainingAmount = Model.Service.Total;
+
+                for (int i = 0; i < option.Times; i++)
                 {
-                    TeamID = team.TeamID,
-                    ServiceID = Model.Service.ID,
-                    Amount = Model.Service.Total / option.Times,
-                    RemainingAmount = remainingAmount - (Model.Service.Total / option.Times),
-                    PaymentOn = DateTime.Now.Date.AddDays(dayCounter),
-                    CreatedAt = DateTime.Now
-                };
+                    Payment payment = new Payment()
+                    {
+                        TeamID = team.TeamID,
+                        ServiceID = Model.Service.ID,
+                        Amount = Model.Service.Total / option.Times,
+                        RemainingAmount = remainingAmount - (Model.Service.Total / option.Times),
+                        PaymentDay = DateTime.Now.AddDays(dayCounter),
+                        UpdatedAt = DateTime.Now,
+                        CreatedAt = DateTime.Now
+                    };
 
-                remainingAmount = remainingAmount - (Model.Service.Total / option.Times);
-                dayCounter = dayCounter + 30;
+                    remainingAmount = remainingAmount - (Model.Service.Total / option.Times);
+                    dayCounter = dayCounter + 30;
 
-                _context.Payments.Add(payment);
+                    _context.Payments.Add(payment);
+                }
+
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e + ": An error occurred.");
+            }
 
             return RedirectToAction(nameof(Index));
         }

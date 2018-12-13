@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CRM.Models.Product>
+@using CRM.Services
+@inject ProductService ProductService
 @{
     ViewData["Title"] = "PRODUCTS";
     int counter = 1;
@@ -49,7 +51,10 @@
                                         }
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="badge badge-warning">Used</span>
+                                        @if (ProductService.IsProductUsed(item.ID) == true)
+                                        {
+                                            <span class="badge badge-warning">Used</span>
+                                        }
                                     </td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.CreatedAt)</td>
                                     <td class="text-right align-middle">

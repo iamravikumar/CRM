@@ -1,4 +1,6 @@
 ﻿@model CRM.Models.Product
+@using CRM.Services
+@inject ProductService ProductService
 @{
     ViewData["Title"] = "DELETE THE EXISTING PRODUCT";
 }
@@ -10,18 +12,37 @@
                 @ViewData["Title"]
             </div>
             <div class="card-body text-center">
-                Are you sure you want to delete product <strong>@Model.Name</strong>?
+                <p>Are you sure you want to delete product <strong>@Model.Name</strong>?</p>
                 <form hidden id="form" method="post" asp-action="Delete" asp-antiforgery="true" asp-route-id="@Model.ID"></form>
+
+
+                @if (ProductService.IsProductUsed(Model.ID) == true)
+                {
+                    <div class="alert alert-warning text-left" role="alert">
+                        <i class="fa fa-info-circle"></i>
+                        You cannot delete a product which used on services.
+                    </div>
+                }
             </div>
             <div class="card-footer">
                 <a asp-action="Index" class="btn btn-secondary">
                     <i class="fa fa-angle-left"></i>
-                    Back to Team List
+                    Back to the List
                 </a>
-                <a href="javascript: $('#form').submit()" class="btn btn-danger">
-                    <i class="fa fa-trash"></i>
-                    Delete
-                </a>
+                @if (ProductService.IsProductUsed(Model.ID) == true)
+                {
+                    <a href="" class="disabled btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript: $('#form').submit()" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </a>
+                }
             </div>
         </div>
     </div>

@@ -45,7 +45,7 @@
             <div class="card-footer">
                 <a asp-action="Index" class="btn btn-secondary">
                     <i class="fa fa-angle-left"></i>
-                    Back to Payment List
+                    Back to the List
                 </a>
                 <a href="javascript: $('#form').submit()" class="btn btn-primary">
                     <i class="fa fa-refresh"></i>
@@ -66,7 +66,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Payment On</th>
+                                <th scope="col">Payment Day</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Remaining Amount</th>
                                 <th scope="col"></th>
@@ -75,25 +75,34 @@
                         <tbody>
                             @foreach (var item in Model.Payments)
                             {
-                                <tr>
+                                <tr class="@if (item.IsDone == true) { @Html.Raw("table-success") }  payment-@item.ID">
                                     <td class="align-middle">@Html.Raw(counter)</td>
-                                    <td class="align-middle">@Html.DisplayFor(m => item.PaymentOn)</td>
+                                    <td class="align-middle">@item.PaymentDay.ToShortDateString()</td>
                                     <td class="align-middle">@string.Format("{0:C}", item.Amount)</td>
                                     <td class="align-middle">@string.Format("{0:C}", item.RemainingAmount)</td>
                                     <td class="align-middle text-center">
                                         @if (item.IsDone == true)
                                         {
-                                            <span class="badge badge-primary">Paid</span>
+                                            <span class="badge badge-primary paid-@item.ID">Paid</span>
                                         }
                                         else
                                         {
-                                            <span class="badge badge-warning">Unpaid</span>
+                                            <span class="badge badge-warning unpaid-@item.ID">Unpaid</span>
                                         }
                                     </td>
                                     <td class="text-right align-middle">
-                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary">
-                                            <span class="fa fa-check"></span>
-                                        </a>
+                                        @if (item.IsDone == false)
+                                        {
+                                            <a id="@item.ID" href="javascript:;" class="btn btn-payment btn-sm btn-outline-primary btn-@item.ID">
+                                                <span class="fa fa-credit-card icon-@item.ID"></span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a id="@item.ID" href="javascript:;" class="btn btn-payment btn-sm btn-outline-danger btn-@item.ID">
+                                                <span class="fa fa-credit-card icon-@item.ID"></span>
+                                            </a>
+                                        }
                                     </td>
                                 </tr>
                                 counter++;
@@ -119,4 +128,29 @@
 
 @section Styles {
     <partial name="_StylesPartial" />
+}
+
+
+@section Scripts {
+    <script>
+        $('.btn-payment').click(function () {
+            var id = $(this).attr('id');
+            $.ajax({
+                url: '/api/payments/' + id,
+                type: 'PUT',
+                cache: false,
+                dataType: 'text',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $('.payment-' + id).toggleClass("table-success");
+                    $(".unpaid-" + id).toggle();
+                    $(".paid-" + id).toggle();
+                },
+                error: function (data) {
+                    alert("An error occurred.");
+                }
+            });
+            return false;
+        });
+    </script>
 }
