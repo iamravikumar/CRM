@@ -140,5 +140,33 @@ namespace CRM.Controllers
 
             return View(service);
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            Service service = await _context.Services.Include(s => s.PaymentOption).Include(s => s.Product).FirstOrDefaultAsync(s => s.ID == id);
+
+            if (service == null)
+                return NotFound();
+
+            return View(service);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id, Service service)
+        {
+            if (id != service.ID)
+                return NotFound();
+
+            service = await _context.Services.FirstOrDefaultAsync(s => s.ID == id);
+
+            _context.Services.Remove(service);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

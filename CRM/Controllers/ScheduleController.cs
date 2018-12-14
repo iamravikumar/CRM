@@ -45,6 +45,7 @@ namespace CRM.Controllers
                 ScheduleHistories = await _context.Schedules
                                             .Where(s => s.TeamID == team.TeamID)
                                             .Where(s => s.IsDone == true)
+                                            .Where(s => s.UpdatedAt.Date == DateTime.Now.Date)
                                             .Include(s => s.User)
                                             .Include(s => s.Personnel)
                                             .Include(s => s.Programme)
@@ -95,6 +96,7 @@ namespace CRM.Controllers
             Model.Schedule.PersonnelID = personnel.ID;
             Model.Schedule.TeamID = team.TeamID;
             Model.Schedule.CreatedAt = DateTime.Now;
+            Model.Schedule.UpdatedAt = DateTime.Now;
 
             try
             {

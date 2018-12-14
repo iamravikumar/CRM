@@ -16,7 +16,7 @@ namespace CRM.Services
             _context = context;
         }
 
-        public bool IsPaid(int id)
+        public bool IsDone(int id)
         {
             var payments = _context.Payments.Where(p => p.ServiceID == id).ToList();
 
@@ -28,6 +28,21 @@ namespace CRM.Services
                     result = true;
                 else
                     result = false;
+            }
+
+            return result;
+        }
+
+        public bool IsPaid(int id)
+        {
+            var payments = _context.Payments.Where(p => p.ServiceID == id).ToList();
+
+            bool result = false;
+
+            foreach (var item in payments)
+            {
+                if (item.IsDone == true)
+                    result = true;
             }
 
             return result;

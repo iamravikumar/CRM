@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr class="@if (PaymentService.IsPaid(item.ID) == true) { @Html.Raw("table-success") }">
+                                <tr class="@if (PaymentService.IsDone(item.ID) == true) { @Html.Raw("table-success") }">
                                     <td class="align-middle">@Html.Raw(counter)</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.Product.Name)</td>
                                     <td class="align-middle">@string.Format("{0:C}", item.Total)</td>
@@ -45,7 +45,10 @@
                                         <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-dark">
                                             <span class="fa fa-eye"></span>
                                         </a>
-                                        <partial name="_DefaultActionButtonsPartial" model="@item.ID" />
+                                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">
+                                            <span class="fa fa-trash"></span>
+                                            Delete
+                                        </a>
                                     </td>
                                 </tr>
                                 counter++;

@@ -1,0 +1,60 @@
+﻿@model CRM.Models.Service
+@using CRM.Services
+@inject PaymentService PaymentService
+@{
+    ViewData["Title"] = "DELETE THE EXISTING SERVICE";
+}
+
+<div class="row">
+    <div class="col-lg-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-action="Delete" asp-antiforgery="true">
+                    <div class="form-group">
+                        <input disabled asp-for="Product.Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input disabled asp-for="PaymentOption.Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input disabled value="@string.Format("{0:C}", Model.Total)" class="form-control" />
+                    </div>
+                </form>
+                @if (PaymentService.IsPaid(Model.ID) == true)
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-info-circle"></i>
+                        You cannot delete a service which paid by personnel or firm.
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-angle-left"></i>
+                    Back to the List
+                </a>
+                @if (PaymentService.IsPaid(Model.ID) == true)
+                {
+                    <a href="" class="btn disabled btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript: $('#form').submit()" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <partial name="_StylesPartial" />
+}

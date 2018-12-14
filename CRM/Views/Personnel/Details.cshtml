@@ -110,12 +110,12 @@
                     </div>
                     <div class="col text-right">
                         <a asp-action="Create" asp-route-id="@Model.ID" asp-controller="Service" class="btn btn-primary">
-                            <i class="fa fa-gift" aria-hidden="true"></i>
-                            Prodive a Service
+                            <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                            Create a Service
                         </a>
                         <a asp-action="Create" asp-route-id="@Model.ID" asp-controller="Schedule" class="btn btn-primary">
                             <i class="fa fa-calendar-check-o"></i>
-                            Set a Schedule
+                            Create a Schedule w/ @Model.FullName()
                         </a>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                         <tbody>
                             @foreach (var item in Model.Schedules)
                             {
-                                <tr>
+                                <tr class="@if (item.IsDone == true) { @Html.Raw("table-warning") }">
                                     <td class="align-middle">@Html.Raw(counter)</td>
                                     <td class="align-middle">@item.Personnel.FullName()</td>
                                     <td class="align-middle">@Html.DisplayFor(m => item.Programme.Name)</td>

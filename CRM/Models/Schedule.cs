@@ -36,6 +36,9 @@ namespace CRM.Models
         [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
 
+        [Display(Name = "Updated At")]
+        public DateTime UpdatedAt { get; set; }
+
         [ForeignKey("UserID")]
         public virtual ApplicationUser User { get; set; }
 

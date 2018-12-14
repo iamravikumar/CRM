@@ -56,6 +56,7 @@ namespace CRM.Controllers.API
             try
             {
                 schedule.IsDone = true;
+                schedule.UpdatedAt = DateTime.Now;
                 _context.SaveChanges();
             }
             catch (Exception e){
