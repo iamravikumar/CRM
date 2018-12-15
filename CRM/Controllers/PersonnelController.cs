@@ -31,13 +31,13 @@ namespace CRM.Controllers
             };
         }
 
-        [Route("Directory")]
         public async Task<IActionResult> Index()
         {
             var identity = (ClaimsIdentity)this.User.Identity;
             var claim = identity.FindFirst(ClaimTypes.NameIdentifier);
             var team = await _context.TeamMembers.FirstOrDefaultAsync(t => t.UserID == claim.Value);
-            var personnels = await _context.Personnels.Where(f => f.TeamID == team.TeamID).Include(f => f.Firm).ToListAsync();
+
+            var personnels = await _context.Personnels.Where(p => p.TeamID == team.TeamID).Include(p => p.Firm).ToListAsync();
 
             return View(personnels);
         }

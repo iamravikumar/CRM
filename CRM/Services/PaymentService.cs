@@ -18,13 +18,13 @@ namespace CRM.Services
 
         public bool IsDone(int id)
         {
-            var payments = _context.Payments.Where(p => p.ServiceID == id).ToList();
+            var payments = _context.Payments.Where(p => p.ServiceID == id).Select(p => p.IsDone).ToList();
 
             bool result = false;
 
             foreach (var item in payments)
             {
-                if (item.IsDone == true)
+                if (item == true)
                     result = true;
                 else
                     result = false;
@@ -35,13 +35,13 @@ namespace CRM.Services
 
         public bool IsPaid(int id)
         {
-            var payments = _context.Payments.Where(p => p.ServiceID == id).ToList();
+            var payments = _context.Payments.Where(p => p.ServiceID == id).Select(p => p.IsDone).ToList();
 
             bool result = false;
 
             foreach (var item in payments)
             {
-                if (item.IsDone == true)
+                if (item == true)
                     result = true;
             }
 

@@ -14,8 +14,8 @@
             </div>
             @if (Model.Count() > 0)
             {
-                <div class="p-0 card-body">
-                    <table style="border: none" class="table table-hover table-striped table-borderless">
+                <div class="card-body">
+                    <table id="table" class="table table-hover table-striped table-borderless">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -64,4 +64,15 @@
 
 @section Styles {
     <partial name="_StylesPartial" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
+}
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
 }
